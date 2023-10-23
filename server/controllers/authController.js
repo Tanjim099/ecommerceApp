@@ -92,3 +92,10 @@ export const userLogin = async (req, res) => {
         })
     }
 }
+
+//test
+export const test = async (req, res) => {
+    res.send({
+        message: "Test"
+    })
+}
