@@ -9,7 +9,7 @@ export const userRegister = async (req, res) => {
         const { name, email, password, phone, address } = req.body;
         //validation
         if (!name || !email || !password || !phone || !address) {
-            return res.send({ error: "All fields are requred" })
+            return res.send({ message: "All fields are requred" })
         }
 
         //check user
@@ -17,8 +17,8 @@ export const userRegister = async (req, res) => {
 
         //exisiting user
         if (exisitingUser) {
-            res.status(500).send({
-                success: true,
+            res.status(400).send({
+                success: false,
                 message: "Already Register please login",
             })
         }
@@ -72,9 +72,10 @@ export const userLogin = async (req, res) => {
 
         //token
         const token = await JWT.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" },);
+        res.cookie('token', token)
         res.status(200).send({
             success: true,
-            message: "User Register Successfully",
+            message: "User Login Successfully",
             user: {
                 name: user.name,
                 email: user.email,
@@ -97,5 +98,19 @@ export const userLogin = async (req, res) => {
 export const test = async (req, res) => {
     res.send({
         message: "Test"
+    })
+}
+
+//logout
+export const logout = (req, res) => {
+    res.cookie("token", null, {
+        secure: true,
+        maxAge: 0,
+        httpOnly: true
+    });
+
+    res.status(200).send({
+        success: true,
+        message: "User Logged out successfully"
     })
 }
