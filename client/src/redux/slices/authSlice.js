@@ -41,6 +41,23 @@ export const login = createAsyncThunk("/auth/login", async (data) => {
         toast.error(error?.response?.data.message)
     }
 })
+
+//
+export const logout = createAsyncThunk("/auth/logout", async () => {
+    try {
+        const response = axiosInstance.get("/auth/logout");
+        toast.promise(response, {
+            loading: "please Wait!",
+            success: (data) => {
+                return data?.data?.message
+            },
+            error: "Failed to logout"
+        });
+        return await response
+    } catch (error) {
+
+    }
+})
 const authSlice = createSlice({
     name: "auth",
     initialState,
@@ -55,6 +72,12 @@ const authSlice = createSlice({
                 state.isLoggedIn = true;
                 state.data = action?.payload?.user;
                 // state.role = action?.payload?.data?.user?.role;
+            })
+            .addCase(logout.fulfilled, (state, action) => {
+                localStorage.clear();
+                state.isLoggedIn = false,
+                    state.role = "";
+                state.data = {}
             })
     }
 });

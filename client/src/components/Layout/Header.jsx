@@ -1,6 +1,20 @@
-import { Link, NavLink } from "react-router-dom"
+import { Link, NavLink, useNavigate } from "react-router-dom"
 import { FaShopware } from "react-icons/fa"
+import { useDispatch, useSelector } from "react-redux"
+import { logout } from "../../redux/slices/authSlice";
 function Header() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn);
+    console.log(isLoggedIn)
+
+    async function onLogout(e) {
+        e.preventDefault();
+        const response = await dispatch(logout());
+        if (response?.payload?.data) {
+            navigate("/")
+        }
+    }
     return (
         <>
             <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -22,16 +36,22 @@ function Header() {
                                     Category
                                 </NavLink>
                             </li>
-                            <li className="nav-item">
-                                <NavLink to="/register" className="nav-link" >
-                                    Register
+                            {!isLoggedIn ? (<>
+                                <li className="nav-item">
+                                    <NavLink to="/register" className="nav-link" >
+                                        Register
+                                    </NavLink>
+                                </li>
+                                <li className="nav-item">
+                                    <NavLink to="/login" className="nav-link" >
+                                        Login
+                                    </NavLink>
+                                </li>
+                            </>) : (<li className="nav-item">
+                                <NavLink onClick={onLogout} className="nav-link" >
+                                    Logout
                                 </NavLink>
-                            </li>
-                            <li className="nav-item">
-                                <NavLink to="/login" className="nav-link" >
-                                    Login
-                                </NavLink>
-                            </li>
+                            </li>)}
                             <li className="nav-item">
                                 <NavLink to="/cart" className="nav-link" >
                                     Cart (0)
