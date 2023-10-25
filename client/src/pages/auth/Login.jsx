@@ -4,16 +4,30 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import "../../styles/AuthStyles.css";
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/slices/authSlice";
 
 function Login() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch()
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const navigate = useNavigate();
 
     // form function
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const loginData = {
+            email: email,
+            password: password
+        }
+
+        const response = await dispatch(login(loginData));
+        if (response?.payload?.success) {
+            navigate("/")
+            return
+        }
+
     };
     return (
         <Layout>
@@ -27,7 +41,7 @@ function Login() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             className="form-control"
-                            id="exampleInputEmail1"
+                            id="email"
                             placeholder="Enter Your Email "
                             required
                         />
@@ -38,7 +52,7 @@ function Login() {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             className="form-control"
-                            id="exampleInputPassword1"
+                            id="password"
                             placeholder="Enter Your Password"
                             required
                         />

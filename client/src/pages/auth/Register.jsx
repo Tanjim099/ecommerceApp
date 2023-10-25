@@ -36,15 +36,9 @@ function Register() {
     return (
         <Layout title={"Register - Page"}>
             <div className="form-container ">
-                <h1>Register</h1>
                 <form onSubmit={handleSubmit} >
+                    <h4 className="title">REGISTER FORM</h4>
                     <div className="mb-3">
-                        <label
-                            htmlFor="name"
-                            className="form-label"
-                        >
-                            Name
-                        </label>
                         <input
                             type="text"
                             value={name}
@@ -53,16 +47,11 @@ function Register() {
                             name="name"
                             id="name"
                             aria-describedby="emailHelp"
+                            placeholder="Enter Your Name"
                             required
                         />
                     </div>
                     <div className="mb-3">
-                        <label
-                            htmlFor="email"
-                            className="form-label"
-                        >
-                            Email address
-                        </label>
                         <input
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -70,16 +59,11 @@ function Register() {
                             className="form-control"
                             id="email"
                             aria-describedby="emailHelp"
+                            placeholder="Enter Your Email"
                             required
                         />
                     </div>
                     <div className="mb-3">
-                        <label
-                            htmlFor="password"
-                            className="form-label"
-                        >
-                            Password
-                        </label>
                         <input
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
@@ -87,16 +71,11 @@ function Register() {
                             name="password"
                             className="form-control"
                             id="password"
+                            placeholder="Enter Your Password"
                             required
                         />
                     </div>
                     <div className="mb-3">
-                        <label
-                            htmlFor="phone"
-                            className="form-label"
-                        >
-                            Phone Number
-                        </label>
                         <input
                             value={phone}
                             onChange={(e) => setPhone(e.target.value)}
@@ -104,22 +83,18 @@ function Register() {
                             name="phone"
                             className="form-control"
                             id="phone"
+                            placeholder="Enter Your Phone"
                             required
                         />
                     </div>
                     <div className="mb-3">
-                        <label
-                            htmlFor="address"
-                            className="form-label"
-                        >
-                            Address
-                        </label>
                         <input
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
                             type="text"
                             name="address"
                             className="form-control"
+                            placeholder="Enter Your Address"
                             id="address"
                             required
                         />
