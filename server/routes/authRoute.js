@@ -1,5 +1,5 @@
 import express from "express"
-import { logout, test, userLogin, userRegister } from "../controllers/authController.js";
+import { forgotPassword, logout, test, userLogin, userRegister } from "../controllers/authController.js";
 import { isAdmin, requredSignIn } from "../middlewares/authMiddleware.js";
 
 //router object
@@ -12,6 +12,9 @@ router.post("/register", userRegister);
 
 //LOGIN || METHOD POST
 router.post("/login", userLogin);
+
+//FORGOT-PASSWORD || METHOD POST
+router.post("/forgot-password", forgotPassword)
 
 //LOGOUT || METHOD GET
 router.get("/logout", logout)
