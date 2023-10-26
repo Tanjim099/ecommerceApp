@@ -8,6 +8,8 @@ import PolicyPage from './pages/Policy'
 import PageNotFound from './pages/PageNotFound'
 import Register from './pages/auth/Register'
 import Login from './pages/auth/Login'
+import Dashboard from './pages/user/Dashboard'
+import RequireAuth from './components/auth/RequireAuth'
 
 function App() {
 
@@ -21,6 +23,11 @@ function App() {
         <Route path='/contact' element={<ContactPage />} />
         <Route path='/policy' element={<PolicyPage />} />
         <Route path='*' element={<PageNotFound />} />
+
+
+        <Route element={<RequireAuth allowedRoles={["ADMIN", "USER"]} />}>
+          <Route path='/dashboard' element={<Dashboard />} />
+        </Route>
       </Routes>
     </>
   )
