@@ -2,12 +2,15 @@ import { Link, NavLink, useNavigate } from "react-router-dom"
 import { FaShopware } from "react-icons/fa"
 import { useDispatch, useSelector } from "react-redux"
 import { logout } from "../../redux/slices/authSlice";
+import { useEffect } from "react";
 function Header() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn);
     console.log(isLoggedIn)
 
+    const userData = useSelector((state) => state?.auth.data);
+    console.log(userData)
     async function onLogout(e) {
         e.preventDefault();
         const response = await dispatch(logout());
@@ -47,11 +50,37 @@ function Header() {
                                         Login
                                     </NavLink>
                                 </li>
-                            </>) : (<li className="nav-item">
-                                <NavLink onClick={onLogout} className="nav-link" >
-                                    Logout
-                                </NavLink>
-                            </li>)}
+                            </>) : (
+                                <>
+                                    <li className="nav-item dropdown">
+                                        <NavLink
+                                            className="nav-link dropdown-toggle"
+                                            href="#"
+                                            role="button"
+                                            data-bs-toggle="dropdown"
+                                            aria-expanded="false"
+                                        >
+                                            {userData?.name}
+                                        </NavLink>
+                                        <ul className="dropdown-menu">
+                                            <li>
+                                                <NavLink to={`/dashboard/${userData?.role == "ADMIN" ? "admin" : "user"}`} className="dropdown-item">
+                                                    Dashboard
+                                                </NavLink>
+                                            </li>
+                                            <li>
+                                                <NavLink
+                                                    onClick={onLogout}
+                                                    to="/login"
+                                                    className="dropdown-item"
+                                                >
+                                                    Logout
+                                                </NavLink>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </>
+                            )}
                             <li className="nav-item">
                                 <NavLink to="/cart" className="nav-link" >
                                     Cart (0)

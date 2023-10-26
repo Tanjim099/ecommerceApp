@@ -15,6 +15,7 @@ function Register() {
     const [password, setPassword] = useState("");
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
+    const [answer, setAnswer] = useState("");
 
     //form submit function
     const handleSubmit = async (e) => {
@@ -24,9 +25,10 @@ function Register() {
             email: email,
             password: password,
             phone: phone,
-            address: address
+            address: address,
+            answer: answer
         }
-
+        console.log(userData)
         const response = await dispatch(register(userData))
         console.log(response)
         if (response?.payload?.data) {
@@ -96,6 +98,18 @@ function Register() {
                             className="form-control"
                             placeholder="Enter Your Address"
                             id="address"
+                            required
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <input
+                            value={answer}
+                            onChange={(e) => setAnswer(e.target.value)}
+                            type="text"
+                            name="asnwer"
+                            className="form-control"
+                            placeholder="Enter Your Favorite Sports"
+                            id="asnwer"
                             required
                         />
                     </div>

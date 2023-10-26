@@ -1,31 +1,31 @@
+import Layout from "../../components/Layout/Layout";
 import React, { useState } from "react";
-import Layout from "./../../components/Layout/Layout";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import "../../styles/AuthStyles.css";
 import { useDispatch } from "react-redux";
-import { login } from "../../redux/slices/authSlice";
+import { forgotPassword } from "../../redux/slices/authSlice";
 
-function Login() {
+function ForgotPassword() {
     const navigate = useNavigate();
     const dispatch = useDispatch()
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [answer, setAnswer] = useState("");
 
-
-    // form function
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const loginData = {
+        const forgotData = {
             email: email,
-            password: password
+            newPassword: newPassword,
+            answer: answer
         }
 
-        const response = await dispatch(login(loginData));
+        const response = await dispatch(forgotPassword(forgotData));
         console.log(response)
         if (response?.payload?.success) {
-            navigate("/")
+            navigate("/login")
             return
         }
 
@@ -50,27 +50,32 @@ function Login() {
                     <div className="mb-3">
                         <input
                             type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
                             className="form-control"
-                            id="password"
-                            placeholder="Enter Your Password"
+                            id="newPassword"
+                            placeholder="Enter Your New Password"
                             required
                         />
                     </div>
-
-                    <div className="flex flex-col">
-                        <button type="submit" className="btn btn-primary">
-                            LOGIN
-                        </button>
-                        <button type="button" className="btn btn-primary" onClick={() => navigate("/forgot-password")}>
-                            Forgot Password
-                        </button>
+                    <div className="mb-3">
+                        <input
+                            type="answer"
+                            value={answer}
+                            onChange={(e) => setAnswer(e.target.value)}
+                            className="form-control"
+                            id="answer"
+                            placeholder="Enter Your Favorite Sport"
+                            required
+                        />
                     </div>
+                    <button type="submit" className="btn btn-primary">
+                        Reset Password
+                    </button>
                 </form>
             </div>
         </Layout>
     )
 }
 
-export default Login
+export default ForgotPassword
