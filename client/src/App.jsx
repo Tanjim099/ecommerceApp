@@ -15,6 +15,8 @@ import AdminDashboard from './pages/admin/AdminDashboard'
 import CreateCategory from './pages/admin/CreateCategory'
 import CreateProduct from './pages/admin/CreateProduct'
 import Users from './pages/admin/Users'
+import Profile from './pages/user/Profile'
+import Orders from './pages/user/Orders'
 
 function App() {
 
@@ -33,6 +35,8 @@ function App() {
 
         <Route element={<RequireAuth allowedRoles={["ADMIN", "USER"]} />}>
           <Route path='/dashboard/user' element={<Dashboard />} />
+          <Route path='/dashboard/user/profile' element={<Profile />} />
+          <Route path='/dashboard/user/orders' element={<Orders />} />
         </Route>
 
         <Route element={<RequireAuth allowedRoles={["ADMIN"]} />}>

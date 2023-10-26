@@ -1,16 +1,16 @@
-import Layout from "../../components/Layout/Layout";
-import UserMenu from "../../components/Layout/userMenu";
+import Layout from "../../components/Layout/Layout"
+import UserMenu from "../../components/Layout/userMenu"
 
-function Dashboard() {
+function Profile() {
     return (
-        <Layout>
+        <Layout title={"User - Profile Page"}>
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-3">
                         <UserMenu />
                     </div>
                     <div className="col-md-9">
-
+                        <h1>Profile Content</h1>
                     </div>
                 </div>
             </div>
@@ -18,4 +18,4 @@ function Dashboard() {
     )
 }
 
-export default Dashboard
+export default Profile
