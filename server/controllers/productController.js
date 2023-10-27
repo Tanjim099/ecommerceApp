@@ -2,6 +2,8 @@ import slugify from "slugify";
 import productModel from "../models/productModel.js";
 import fs from "fs"
 
+
+//CREATE PRODUCT
 export const createProduct = async (req, res) => {
     try {
         const { name, description, price, category, quantity, shipping } = req.fields;
@@ -30,6 +32,26 @@ export const createProduct = async (req, res) => {
         res.status(501).send({
             success: false,
             message: "Error while creating product",
+            error
+        })
+    }
+}
+
+//GET ALL PRODUCT
+export const getAllProducts = async (req, res) => {
+    try {
+        const products = await productModel.find({}).select("-image").limit(12).sort({ createdAt: -1 });
+        res.status(200).send({
+            success: true,
+            message: "All Products",
+            totalCount: products.length,
+            products
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(501).send({
+            success: false,
+            message: "Error while getting all products",
             error
         })
     }
