@@ -23,7 +23,6 @@ function Login() {
         }
 
         const response = await dispatch(login(loginData));
-        console.log(response)
         if (response?.payload?.success) {
             navigate("/")
             return
