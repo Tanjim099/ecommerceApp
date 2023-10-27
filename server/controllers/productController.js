@@ -75,3 +75,42 @@ export const getProduct = async (req, res) => {
         })
     }
 }
+
+
+//PRODUCT IMAGE
+export const productImage = async (req, res) => {
+    try {
+        const { pid } = req.params;
+        const product = await productModel.findById(pid).select("image");
+        if (product.image.data) {
+            res.set("Content-type", product.image.contentType)
+            return res.status(200).send(product.image.data)
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(501).send({
+            success: false,
+            message: "Error while getting product image",
+            error
+        })
+    }
+}
+
+//DELETE PRODUCT
+export const deleteProduct = async (req, res) => {
+    try {
+        const { pid } = req.params;
+        await productModel.findByIdAndDelete(pid).select("-image");
+        res.status(200).send({
+            success: true,
+            message: "Product Deleted successfully"
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(501).send({
+            success: false,
+            message: "Error while deleting product image",
+            error
+        })
+    }
+}
