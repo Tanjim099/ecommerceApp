@@ -114,3 +114,42 @@ export const deleteProduct = async (req, res) => {
         })
     }
 }
+
+//UPDATE PRODUCT
+export const updateProduct = async (req, res) => {
+    try {
+        const { name, description, price, category, quantity, shipping } = req.fields;
+        const { image } = req.files;
+        const { pid } = req.params;
+
+        //VALIDATION
+        if (!name || !description || !price || !category || !quantity || !image || image > 1000000) {
+            res.status(500).send({
+                message: "All Fields are required"
+            })
+        };
+
+        const products = await productModel.findByIdAndUpdate(
+            req.params.pid,
+            { ...req.fields, slug: slugify(name) },
+            { new: true }
+        );
+        if (image) {
+            products.image.data = fs.readFileSync(image.path);
+            products.image.contentType = image.type;
+        }
+        await products.save();
+        res.status(200).send({
+            success: true,
+            message: "Product Updated Successfully",
+            products
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(501).send({
+            success: false,
+            message: "Error while Updating product",
+            error
+        })
+    }
+}
