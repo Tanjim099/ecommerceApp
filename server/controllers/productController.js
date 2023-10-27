@@ -40,7 +40,7 @@ export const createProduct = async (req, res) => {
 //GET ALL PRODUCT
 export const getAllProducts = async (req, res) => {
     try {
-        const products = await productModel.find({}).select("-image").limit(12).sort({ createdAt: -1 });
+        const products = await productModel.find({}).populate("category").select("-image").limit(12).sort({ createdAt: -1 });
         res.status(200).send({
             success: true,
             message: "All Products",
@@ -52,6 +52,25 @@ export const getAllProducts = async (req, res) => {
         res.status(501).send({
             success: false,
             message: "Error while getting all products",
+            error
+        })
+    }
+}
+
+//GET SINGLE PRODUCT
+export const getProduct = async (req, res) => {
+    try {
+        const product = await productModel.findOne({ slug: req.params.slug }).select("-image").populate("category");
+        res.status(200).send({
+            success: true,
+            message: "get Product",
+            product
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(501).send({
+            success: false,
+            message: "Error while getting product",
             error
         })
     }
