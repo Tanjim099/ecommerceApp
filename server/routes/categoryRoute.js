@@ -1,6 +1,6 @@
 import express from "express";
 import { isAdmin, requredSignIn } from "../middlewares/authMiddleware.js";
-import { createCategory, getCategory, updateCategory } from "../controllers/categoryController.js";
+import { createCategory, deleteCategory, getCategory, singleCategory, updateCategory } from "../controllers/categoryController.js";
 
 const categoryRoutes = express.Router();
 
@@ -15,5 +15,11 @@ categoryRoutes.put("/update-category/:id", requredSignIn, isAdmin, updateCategor
 
 //GET ALL CATEGORYS
 categoryRoutes.get("/get-category", getCategory);
+
+//GET CATEGORY BY ID
+categoryRoutes.get("/single-category/:slug", singleCategory);
+
+//DELETE CATEGORY
+categoryRoutes.delete("/delete-category/:id", requredSignIn, isAdmin, deleteCategory);
 
 export default categoryRoutes

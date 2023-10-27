@@ -72,3 +72,43 @@ export const getCategory = async (req, res) => {
         })
     }
 }
+
+//GET SINGLE CATEGORY BY ID
+export const singleCategory = async (req, res) => {
+    try {
+        const { slug } = req.params;
+        const category = await categoryModel.findOne({ slug });
+        if (!category) { return res.send({ message: "Category is not available" }) }
+        res.status(200).send({
+            success: true,
+            message: "Getted single category",
+            category
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(501).send({
+            success: false,
+            message: "Error while getting single category",
+            error
+        })
+    }
+}
+
+//DELETE CATGEGORY
+export const deleteCategory = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await categoryModel.findByIdAndDelete(id);
+        res.status(200).send({
+            success: true,
+            message: "Category Deleted Successfully"
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(501).send({
+            success: false,
+            message: "Error while deleting category",
+            error
+        })
+    }
+}
