@@ -6,23 +6,27 @@ const initialState = {
     categoryData: []
 };
 
-
+//GET ALL CATEGORY
 export const getCategories = createAsyncThunk("category/get", async () => {
     try {
-        const response = axiosInstance.get("/category/get-category");
-        toast.promise(response, {
-            loading: "Wait! getting categories",
-            success: (data) => {
-                return data?.data?.message
-            },
-            error: "Failed to load categories"
-        })
-        return (await response).data
+        const response = await axiosInstance.get("/category/get-category");
+
+        return response.data
     } catch (error) {
-        toast.error(error)
+        toast.error(error?.response?.data?.message)
     }
 })
 
+//CREATE CATEGORY
+export const createCategory = createAsyncThunk("category/create", async (name) => {
+    try {
+        const response = axiosInstance.post("category/create-category", name);
+        console.log(response)
+        return (await response).data
+    } catch (error) {
+        toast.error(error?.response?.data?.message)
+    }
+})
 const categorySlice = createSlice({
     name: "category",
     initialState,
@@ -30,7 +34,8 @@ const categorySlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getCategories.fulfilled, (state, action) => {
-                state.categoryData = action?.payload.category
+                console.log(action)
+                state.categoryData = action?.payload?.category
             })
     }
 });
