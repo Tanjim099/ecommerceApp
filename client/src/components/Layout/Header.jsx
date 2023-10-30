@@ -7,7 +7,10 @@ function Header() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn);
-    const userData = useSelector((state) => state?.auth.data);
+    const getUserData = localStorage.getItem("userData")
+    let userData = JSON.parse(getUserData);
+    // console.log(userData)
+    // const userData = useSelector((state) => state?.auth.data);
     async function onLogout(e) {
         e.preventDefault();
         const response = await dispatch(logout());

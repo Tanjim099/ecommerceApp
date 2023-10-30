@@ -22,6 +22,46 @@ export const createCategory = createAsyncThunk("category/create", async (name) =
     try {
         const response = axiosInstance.post("category/create-category", name);
         console.log(response)
+        toast.promise(response, {
+            loading: "Wait Creating Category",
+            success: (data) => {
+                return data?.data?.message
+            },
+            error: "Failed to Create Category"
+        })
+        return (await response).data
+    } catch (error) {
+        toast.error(error?.response?.data?.message)
+    }
+})
+
+//UPDATE CATEGORY
+export const updateCategory = createAsyncThunk("category/update", async (data) => {
+    try {
+        const response = axiosInstance.put(`/category/update-category/${data[0]}`, data[1])
+        toast.promise(response, {
+            loading: "Wait Updating Category",
+            success: (data) => {
+                return data?.data?.message
+            },
+            error: "Failed to update category"
+        })
+        return (await response).data
+    } catch (error) {
+        toast.error(error?.response?.data?.message)
+    }
+})
+//DELETE CATEGORY
+export const deleteCategory = createAsyncThunk("/category/delete", async (cid) => {
+    try {
+        const response = axiosInstance.delete(`category/delete-category/${cid}`)
+        toast.promise(response, {
+            loading: "Wait deleting Category",
+            success: (data) => {
+                return data?.data?.response
+            },
+            error: "Failed to Delete Category"
+        })
         return (await response).data
     } catch (error) {
         toast.error(error?.response?.data?.message)
