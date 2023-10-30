@@ -3,10 +3,11 @@ import AdminMenu from "../../components/Layout/AdminMenu";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../../redux/slices/productSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useNavigation } from "react-router-dom";
 
 function AdminProducts() {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const { productList } = useSelector((state) => state?.product)
     async function onLoadGetAllProducts() {
         const response = await dispatch(getAllProducts());
@@ -26,9 +27,9 @@ function AdminProducts() {
                         <h1>All Products List</h1>
                         <div className="d-flex wrap">
                             {productList?.map((p) => (
-                                <Link
+                                <div
                                     key={p._id}
-                                    to={`/dashboard/admin/product/${p.slug}`}
+                                    onClick={() => navigate(`/dashboard/admin/product/${p.slug}`, { state: { ...p } })}
                                     className="product-link"
                                 >
                                     <div className="card m-2" style={{ width: "18rem" }}>
@@ -42,7 +43,7 @@ function AdminProducts() {
                                             <p className="card-text">{p.description}</p>
                                         </div>
                                     </div>
-                                </Link>
+                                </div>
                             ))}
                         </div>
                     </div>

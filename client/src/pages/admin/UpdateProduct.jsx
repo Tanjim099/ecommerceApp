@@ -2,24 +2,27 @@ import { useEffect, useState } from "react"
 import AdminMenu from "../../components/Layout/AdminMenu"
 import Layout from "../../components/Layout/Layout"
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getCategories } from "../../redux/slices/categorySlice";
 import { Select } from "antd";
-import { createProduct } from "../../redux/slices/productSlice";
+import { updateProduct } from "../../redux/slices/productSlice";
 import toast from "react-hot-toast";
 const { Option } = Select;
 
 function UpdateProduct() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const { state } = useLocation();
     const [categories, setCategories] = useState([]);
-    const [name, setName] = useState("watch");
+    const [name, setName] = useState(state.name);
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
     const [category, setCategory] = useState("");
     const [quantity, setQuantity] = useState("");
     const [shipping, setShipping] = useState("");
     const [image, setImage] = useState("");
+    const [id, setId] = useState("");
 
     //GET ALL CATEGORY
     async function getAllCategory() {
@@ -29,24 +32,34 @@ function UpdateProduct() {
         }
     }
 
-    async function onCreateProduct(e) {
+    function setInitialData() {
+        setName(state.name);
+        setId(state._id);
+        setDescription(state.description);
+        setPrice(state.price);
+        setCategory(state.category._id);
+        setQuantity(state.quantity);
+        setShipping(state.shipping)
+    }
+
+    async function onUpdateProduct(e) {
         e.preventDefault();
         const productData = new FormData();
         productData.append("name", name);
         productData.append("description", description)
         productData.append("price", price)
         productData.append("quantity", quantity)
-        productData.append("image", image)
+        image && productData.append("image", image)
         productData.append("category", category)
-        const response = await dispatch(createProduct(productData))
-        console.log(response)
+        const response = await dispatch(updateProduct([state._id, productData]))
         if (response?.payload?.success) {
-            toast.success("Product Created Successfully");
-            navigate("/")
+            toast.success("Product Updated Successfully");
+            navigate("/dashboard/admin/all-products")
         }
     }
     useEffect(() => {
         getAllCategory()
+        setInitialData()
     }, [])
     return (
         <Layout title={"Create Product Page"}>
@@ -56,7 +69,7 @@ function UpdateProduct() {
                         <AdminMenu />
                     </div>
                     <div className="col-md-9">
-                        <h1>Create Product</h1>
+                        <h1>Update Product</h1>
                         <div className="m-3 w-75" >
                             <Select
                                 bordered={false}
@@ -67,6 +80,7 @@ function UpdateProduct() {
                                 onChange={(value) => {
                                     setCategory(value)
                                 }}
+                                value={category}
                             >
                                 {categories?.map((c) => {
                                     return <Option key={c._id} value={c._id}>
@@ -92,9 +106,17 @@ function UpdateProduct() {
                                 </label>
                             </div>
                             <div className="mb-3">
-                                {image && (
+                                {image ? (
                                     <div className="text-center">
                                         <img src={URL.createObjectURL(image)}
+                                            alt="product image"
+                                            height={"200px"}
+                                            className="img img-responsive"
+                                        />
+                                    </div>
+                                ) : (
+                                    <div className="text-center">
+                                        <img src={`http://localhost:8080/api/v1/product/product-image/${state._id}`}
                                             alt="product image"
                                             height={"200px"}
                                             className="img img-responsive"
@@ -152,6 +174,7 @@ function UpdateProduct() {
                                     placeholder="Select Shiping"
                                     className="form-select mb-3"
                                     onChange={(value) => setShipping(value)}
+                                    value={shipping ? "Yes" : "No"}
                                 >
                                     <Option value="0">No</Option>
                                     <Option value="1">Yes</Option>
@@ -159,9 +182,9 @@ function UpdateProduct() {
                             </div>
                             <div className="mb-3">
                                 <button
-                                    onClick={onCreateProduct}
+                                    onClick={onUpdateProduct}
                                     className="btn btn-primary">
-                                    CREATE PRODUCT
+                                    UPDATE PRODUCT
                                 </button>
                             </div>
                         </div>
