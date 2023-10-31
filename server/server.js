@@ -7,6 +7,8 @@ import authRoutes from "./routes/authRoute.js";
 import cors from "cors"
 import categoryRoutes from "./routes/categoryRoute.js";
 import productRoutes from "./routes/productRoute.js";
+import cookieParser from "cookie-parser";
+import cloudinary from 'cloudinary'
 
 
 //configure env
@@ -18,6 +20,8 @@ connectDB()
 
 //rest object
 const app = express();
+
+app.use(cookieParser())
 
 //middelwares
 const corsOptions = {
@@ -31,6 +35,13 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
 app.use(morgan("dev"));
+
+
+cloudinary.v2.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+    api_key: process.env.CLOUDINARY_API_KEY
+})
 
 //routes
 app.use("/api/v1/auth", authRoutes);

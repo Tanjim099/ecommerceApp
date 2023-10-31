@@ -5,19 +5,20 @@ import categoryModel from "../models/categoryModel.js";
 export const createCategory = async (req, res) => {
     try {
         const { name } = req.body;
+        console.log("name", name)
         if (!name) {
-            return res.status(401).send({ message: "Category Name is required" })
+            return res.status(501).send({ message: "Category Name is required" })
         }
         const existingCategory = await categoryModel.findOne({ name });
         if (existingCategory) {
             return res.status(401).send({
                 success: false,
-                message: "Category Name is required"
+                message: "Category Name is already exist"
             })
         }
 
-        const category = await new categoryModel({ name, slug: slugify(name) }).save();
-        res.status(201).send({
+        const category = await new categoryModel({ name }).save();
+        res.status(200).send({
             success: true,
             message: "New Category Created",
             category
@@ -57,7 +58,7 @@ export const updateCategory = async (req, res) => {
 //GET ALL CATEGORYS CONTROLLER
 export const getCategory = async (req, res) => {
     try {
-        const category = await categoryModel.find({});
+        const category = await categoryModel.find();
         res.status(200).send({
             success: true,
             message: "All Category List",

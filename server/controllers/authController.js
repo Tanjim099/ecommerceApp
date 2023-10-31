@@ -3,6 +3,12 @@ import userModel from "../models/userModel.js";
 import JWT from "jsonwebtoken"
 
 
+const cookieOptions = {
+    secure: true,
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    httpOnly: true
+}
+
 //user register
 export const userRegister = async (req, res) => {
     try {
@@ -70,9 +76,14 @@ export const userLogin = async (req, res) => {
             })
         }
 
+        const token = await JWT.sign({ _id: user._id }, process.env.JWT_SECRET, {
+            expiresIn: "7d",
+        });
         //token
-        const token = await JWT.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" },);
-        res.cookie('token', token)
+        // const token = await user.generateJWTToken();
+        // user.password = undefined;
+
+        res.cookie('token', token);
         res.status(200).send({
             success: true,
             message: "User Login Successfully",

@@ -1,6 +1,8 @@
 import slugify from "slugify";
 import productModel from "../models/productModel.js";
-import fs from "fs"
+import cloudinary from 'cloudinary';
+import fs from 'fs'
+import path from 'path';
 
 
 //CREATE PRODUCT
@@ -60,7 +62,7 @@ export const getAllProducts = async (req, res) => {
 //GET SINGLE PRODUCT
 export const getProduct = async (req, res) => {
     try {
-        const product = await productModel.findOne({ slug: req.params.slug }).select("-image").populate("category");
+        const product = await productModel.findOne({ slug: req.params.slug }).populate("category");
         res.status(200).send({
             success: true,
             message: "get Product",
@@ -100,7 +102,7 @@ export const productImage = async (req, res) => {
 export const deleteProduct = async (req, res) => {
     try {
         const { pid } = req.params;
-        await productModel.findByIdAndDelete(pid).select("-image");
+        await productModel.findByIdAndDelete(pid);
         res.status(200).send({
             success: true,
             message: "Product Deleted successfully"
@@ -121,9 +123,10 @@ export const updateProduct = async (req, res) => {
         const { name, description, price, category, quantity, shipping } = req.fields;
         const { image } = req.files;
         const { pid } = req.params;
+        console.log(name, description, price, category, quantity, shipping)
 
         //VALIDATION
-        if (!name || !description || !price || !category || !quantity || !image || image > 1000000) {
+        if (!name || !description || !price || !category || !quantity || image > 1000000) {
             res.status(500).send({
                 message: "All Fields are required"
             })
@@ -149,6 +152,34 @@ export const updateProduct = async (req, res) => {
         res.status(501).send({
             success: false,
             message: "Error while Updating product",
+            error
+        })
+    }
+}
+
+//FILTER PRODUCT
+export const filterProduct = async (req, res) => {
+    try {
+        const { checked, radio } = req.body;
+        console.log(req.body)
+
+        if (typeof checked === "undefined" || typeof radio === "undefined") {
+            return res.status(400).send({ success: false, message: "Missing required parameters" });
+        }
+        // const { checked, radio } = req.body;
+        let args = {};
+        if (checked.length > 0) args.category = checked;
+        if (radio.length) args.price = { $gte: radio[0], $lte: radio[1] };
+        const products = await productModel.find(args);
+        res.status(200).send({
+            success: true,
+            products
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(501).send({
+            success: false,
+            message: "Error while Filtering Products",
             error
         })
     }
