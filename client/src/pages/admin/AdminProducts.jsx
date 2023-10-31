@@ -20,12 +20,12 @@ function AdminProducts() {
         <Layout title={"Create Product Page"}>
             <div className="container-fluid p-3">
                 <div className="row">
-                    <div className="col-md-3">
+                    <div className="col-md-2">
                         <AdminMenu />
                     </div>
-                    <div className="col-md-9">
+                    <div className="col-md-10">
                         <h1>All Products List</h1>
-                        <div className="d-flex wrap">
+                        <div className="d-flex flex-wrap">
                             {productList?.map((p) => (
                                 <div
                                     key={p._id}

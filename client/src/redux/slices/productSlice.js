@@ -58,6 +58,43 @@ export const updateProduct = createAsyncThunk("product/update", async (data) => 
     }
 })
 
+//DELETE PRODUCT
+export const deleteProduct = createAsyncThunk("product/delete", async (pid) => {
+    try {
+        const response = axiosInstance.delete(`/product/delete-product/${pid}`)
+        toast.promise(response, {
+            loading: "Wait Deleting Product",
+            success: (data) => {
+                return data?.data?.message
+            },
+            error: "Failed to Delete Product"
+        })
+        return (await response).data
+    } catch (error) {
+        toast.error(error?.response?.data?.message)
+    }
+});
+
+
+//FILTER PRODUCT
+export const filtersProduct = createAsyncThunk("product/filters", async (data) => {
+    try {
+        const response = axiosInstance.post("/product/filters-product", data[0], data[1]);
+        toast.promise(response, {
+            loading: "Wait Filtering Products",
+            success: (data) => {
+                return data?.data?.message;
+            },
+            error: "Failed to Filtered Product",
+        });
+        return (await response).data;
+    } catch (error) {
+        toast.error(error?.response?.data?.message);
+    }
+});
+
+
+
 const productSlice = createSlice({
     name: "product",
     initialState,

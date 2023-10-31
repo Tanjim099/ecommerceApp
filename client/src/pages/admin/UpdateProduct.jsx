@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getCategories } from "../../redux/slices/categorySlice";
 import { Select } from "antd";
-import { updateProduct } from "../../redux/slices/productSlice";
+import { deleteProduct, updateProduct } from "../../redux/slices/productSlice";
 import toast from "react-hot-toast";
 const { Option } = Select;
 
@@ -52,6 +52,19 @@ function UpdateProduct() {
         image && productData.append("image", image)
         productData.append("category", category)
         const response = await dispatch(updateProduct([state._id, productData]))
+        if (response?.payload?.success) {
+            toast.success("Product Updated Successfully");
+            navigate("/dashboard/admin/all-products")
+        }
+    }
+
+    //DELETE PRODUCT
+    async function onDeleteProduct(e) {
+        e.preventDefault();
+        let answer = window.prompt("Are You Suce want to delete product");
+        if (!answer) return;
+        const response = await dispatch(deleteProduct(state._id));
+        console.log(response)
         if (response?.payload?.success) {
             toast.success("Product Updated Successfully");
             navigate("/dashboard/admin/all-products")
@@ -185,6 +198,13 @@ function UpdateProduct() {
                                     onClick={onUpdateProduct}
                                     className="btn btn-primary">
                                     UPDATE PRODUCT
+                                </button>
+                            </div>
+                            <div className="mb-3">
+                                <button
+                                    onClick={onDeleteProduct}
+                                    className="btn btn-danger">
+                                    DELETE PRODUCT
                                 </button>
                             </div>
                         </div>
