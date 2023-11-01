@@ -19,6 +19,7 @@ import Profile from './pages/user/Profile'
 import Orders from './pages/user/Orders'
 import AdminProducts from './pages/admin/AdminProducts'
 import UpdateProduct from './pages/admin/UpdateProduct'
+import Search from './pages/Search'
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
         <Route path='/forgot-password' element={<ForgotPassword />} />
+        <Route path="/search" element={<Search />} />
         <Route path='/about' element={<AboutPage />} />
         <Route path='/contact' element={<ContactPage />} />
         <Route path='/policy' element={<PolicyPage />} />

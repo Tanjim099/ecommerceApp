@@ -3,6 +3,7 @@ import { FaShopware } from "react-icons/fa"
 import { useDispatch, useSelector } from "react-redux"
 import { logout } from "../../redux/slices/authSlice";
 import { useEffect } from "react";
+import SearchInput from "../Form/SearchInput";
 function Header() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -31,6 +32,7 @@ function Header() {
                             LOGO
                         </Link>
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <SearchInput />
                             <li className="nav-item">
                                 <NavLink to="/" className="nav-link" aria-current="page">Home</NavLink>
                             </li>

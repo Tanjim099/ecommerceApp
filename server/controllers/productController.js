@@ -247,3 +247,23 @@ export const productList = async (req, res) => {
         })
     }
 }
+
+
+//SEARCH PRODUCT
+export const searchProduct = async (req, res) => {
+    const query = req.query.q;
+
+    if (!query) {
+        return res.status(400).json({ error: 'Please provide a search query.' });
+    }
+
+    try {
+        const results = await productModel.find({
+            name: { $regex: new RegExp(query, 'i') }, // Case-insensitive search
+        });
+
+        res.json(results);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to search for products.' });
+    }
+}
