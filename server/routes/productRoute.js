@@ -1,6 +1,6 @@
 import express from "express";
 import { isAdmin, requredSignIn, validateBody } from "../middlewares/authMiddleware.js";
-import { createProduct, deleteProduct, filterProduct, getAllProducts, getProduct, productCount, productImage, productList, searchProduct, updateProduct } from "../controllers/productController.js";
+import { createProduct, deleteProduct, filterProduct, getAllProducts, getProduct, productCount, productImage, productList, relatedProducts, searchProduct, updateProduct } from "../controllers/productController.js";
 import formidable from "express-formidable"
 import upload from "../middlewares/multerMiddleware.js";
 // import { createProducts } from "../controllers/filterProduct.js";
@@ -37,6 +37,9 @@ productRouter.get("/product-count", productCount);
 productRouter.get("/product-list/:page", productList);
 
 //SEARCH PRODUCT
-productRouter.get("/search", searchProduct)
+productRouter.get("/search", searchProduct);
+
+//SIMILA PRODUCT
+productRouter.get("/related-product/:pid/:cid", relatedProducts)
 
 export default productRouter

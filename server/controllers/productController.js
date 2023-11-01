@@ -26,7 +26,7 @@ export const createProduct = async (req, res) => {
             public_id: 'DUMMY',
             secure_url: 'DUMMY'
         }
-    });
+    })
 
     // console.log(req.file)
 
@@ -233,7 +233,7 @@ export const productList = async (req, res) => {
     try {
         const perPage = 4;
         const page = req.params.page ? req.params.page : 1;
-        const products = await productModel.find({}).skip((page - 1) * perPage).limit(perPage).sort({ createdAt: -1 });
+        const products = await productModel.find({}).populate("category").skip((page - 1) * perPage).limit(perPage).sort({ createdAt: -1 });
         res.status(200).send({
             success: true,
             products
@@ -265,5 +265,27 @@ export const searchProduct = async (req, res) => {
         res.json(results);
     } catch (error) {
         res.status(500).json({ error: 'Failed to search for products.' });
+    }
+}
+
+//SIMILAR PRODUCTS
+export const relatedProducts = async (req, res) => {
+    try {
+        const { pid, cid } = req.params;
+        const products = await productModel.find({
+            category: cid,
+            _id: { $ne: pid }
+        }).limit(3).populate("category");
+        res.status(200).send({
+            success: true,
+            products
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(501).send({
+            success: false,
+            message: "Error in getting related Products",
+            error
+        })
     }
 }
