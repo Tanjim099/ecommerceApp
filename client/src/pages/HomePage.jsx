@@ -1,29 +1,55 @@
 import { useDispatch, useSelector } from "react-redux";
 import Layout from "../components/Layout/Layout";
-import { filtersProduct, getAllProducts } from "../redux/slices/productSlice";
+import { filtersProduct, getAllProducts, productCount } from "../redux/slices/productSlice";
 import { useEffect, useState } from "react";
 import Carousel from "../components/Carousel";
 import { Checkbox, Radio } from "antd";
 import { getCategories } from "../redux/slices/categorySlice";
 import { Prices } from "../components/Prices";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
     const dispatch = useDispatch();
+    const navigate = useNavigate()
     const [productList, setProductList] = useState([])
     const [checked, setChecked] = useState([]);
-    const [radio, setRadio] = useState([])
+    const [radio, setRadio] = useState([]);
+    const [total, setTotal] = useState(0);
+    const [page, setPage] = useState(1);
+    const [loading, setLoading] = useState(1);
     // const { productList } = useSelector((state) => state?.product)
+    console.log(total)
 
     async function onLoadGetAllProducts() {
-        const response = await dispatch(getAllProducts());
+        setLoading(true);
+        const response = await dispatch(getAllProducts(page));
         if (response?.payload?.success) {
             setProductList(response?.payload?.products)
         }
     }
 
-    const categories = useSelector((state) => state?.category?.categoryData);
+    useEffect(() => {
+        if (page === 1) return;
+        loadMore();
+    }, [page]);
+
+    async function loadMore() {
+        const response = await dispatch(getAllProducts(page));
+        if (response?.payload?.success) {
+            setProductList([...productList, ...response?.payload?.products])
+        }
+    }
+
+    const categories = useSelector((state) => state?.category?.categoryData?.category);
     async function onGetData() {
         const response = await dispatch(getCategories())
+        console.log(response)
+    }
+
+    async function onloadGetProductCount() {
+        const response = await dispatch(productCount())
+        setTotal(response?.payload?.total)
+        console.log(response)
     }
 
     //FILTER BY CATEGORY
@@ -40,16 +66,18 @@ function HomePage() {
 
     async function onFiltersProduct() {
         const response = await dispatch(filtersProduct([checked, radio]))
+        setProductList(response?.payload?.products)
         console.log(response)
     }
     useEffect(() => {
+        onloadGetProductCount()
         onGetData()
         if (!checked.length || !radio.length) onLoadGetAllProducts()
-    }, [])
+    }, [checked.length, radio.length])
 
     useEffect(() => {
-        onFiltersProduct()
-    })
+        if (checked.length || radio.length) onFiltersProduct();
+    }, [checked, radio])
     return (
         <Layout>
             <Carousel />
@@ -69,7 +97,7 @@ function HomePage() {
                             })
                         }
                     </div>
-                    {/* PRICE FILTER */}
+                    {/*PRICE FILTER */}
                     <h4 className="text-center mt-5">Filter By Price</h4>
                     <div className="d-flex flex-column">
                         <Radio.Group onChange={(e) => setRadio(e.target.value)}>
@@ -90,14 +118,15 @@ function HomePage() {
                     <h1 className="text-center">All Products</h1>
                     <div className="d-flex flex-wrap">
                         {productList?.map((p) => (
-                            <div className="card m-2" style={{ width: "18rem" }}>
+                            <div className="card m-2" style={{ width: "18rem", maxHeight: "28rem" }}>
                                 <img
-                                    src={`http://localhost:8080/api/v1/product/product-image/${p._id}`}
-                                    className="card-img-top"
+                                    src={p.image.secure_url}
+                                    className="card-img-top h-[100px]"
+                                    style={{ maxHeight: "250px" }}
                                     alt={p.name}
                                 />
                                 <div className="card-body">
-                                    <h5 className="card-title">{p.name}</h5>
+                                    <h5 className="card-title">{p.name.substring(0, 20)}...</h5>
                                     <p className="card-text">
                                         {p.description.substring(0, 30)}...
                                     </p>
@@ -107,6 +136,20 @@ function HomePage() {
                                 </div>
                             </div>
                         ))}
+                    </div>
+                    <div className="m-2 p-3">
+                        {productList && productList.length < total && (
+                            <button
+                                className="btn btn-warning"
+
+                                onClick={(e) => {
+                                    e.preventDefault()
+                                    setPage(page + 1)
+                                }}
+                            >
+                                {loading ? "Loading..." : "Loadmore"}
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>

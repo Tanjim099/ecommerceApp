@@ -55,7 +55,7 @@ function CreateCategory() {
             setVisible(false)
         }
     }
-    const categories = useSelector((state) => state?.category?.categoryData);
+    const categories = useSelector((state) => state?.category?.categoryData?.category);
     console.log(categories)
     async function onGetData() {
         const response = await dispatch(getCategories())

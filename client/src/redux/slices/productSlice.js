@@ -3,7 +3,8 @@ import axiosInstance from "../../config/axiosInstance";
 import toast from "react-hot-toast";
 
 const initialState = {
-    productList: []
+    productList: [],
+    total: 0
 }
 
 //CREATE PRODUCT
@@ -25,9 +26,9 @@ export const createProduct = createAsyncThunk("product/create", async (data) => 
 
 
 //GET ALL PRODUCTS
-export const getAllProducts = createAsyncThunk("product/getAll", async () => {
+export const getAllProducts = createAsyncThunk("product/getAll", async (page) => {
     try {
-        const response = await axiosInstance.get("/product/getall-products")
+        const response = await axiosInstance.get(`/product/product-list/${page}`)
         // toast.promise(response, {
         //     loading: "Wait! Getting All Products",
         //     success: (data) => {
@@ -79,19 +80,32 @@ export const deleteProduct = createAsyncThunk("product/delete", async (pid) => {
 //FILTER PRODUCT
 export const filtersProduct = createAsyncThunk("product/filters", async (data) => {
     try {
-        const response = axiosInstance.post("/product/filters-product", data[0], data[1]);
-        toast.promise(response, {
-            loading: "Wait Filtering Products",
-            success: (data) => {
-                return data?.data?.message;
-            },
-            error: "Failed to Filtered Product",
-        });
-        return (await response).data;
+        const response = axiosInstance.post("/product/filters-product", [data[0], data[1]]);
+        // toast.promise(response, {
+        //     loading: "Wait Filtering Products",
+        //     success: (data) => {
+        //         return data?.data?.message;
+        //     },
+        //     error: "Failed to Filtered Product",
+        // });
+        return await response.data;
     } catch (error) {
         toast.error(error?.response?.data?.message);
     }
 });
+
+//PRODUCT COUNT
+export const productCount = createAsyncThunk("product/count", async () => {
+    try {
+        const response = axiosInstance.get("/product/product-count")
+        return (await response).data
+    } catch (error) {
+        toast.error(error?.response?.data?.message);
+    }
+})
+
+//GET PRODUCT OR PAGINATION
+// export const 
 
 
 
@@ -102,8 +116,10 @@ const productSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getAllProducts.fulfilled, (state, action) => {
-                console.log(action)
                 state.productList = action?.payload?.products
+            })
+            .addCase(productCount.fulfilled, (state, action) => {
+                state.total = action?.payload?.total
             })
     }
 });

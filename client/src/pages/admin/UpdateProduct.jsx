@@ -32,6 +32,19 @@ function UpdateProduct() {
         }
     }
 
+
+    function handleImageUpload(e) {
+        e.preventDefault();
+        const uploadedImage = e.target.files[0];
+        if (uploadedImage) {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(uploadedImage);
+            fileReader.addEventListener("load", function () {
+                setImage(uploadedImage)
+            })
+        }
+    };
+
     function setInitialData() {
         setName(state.name);
         setId(state._id);
@@ -112,7 +125,7 @@ function UpdateProduct() {
                                         name="image"
                                         id="image"
                                         accept="image/*"
-                                        onChange={(e) => setImage(e.target.files[0])}
+                                        onChange={handleImageUpload}
                                         hidden
 
                                     />
@@ -129,7 +142,7 @@ function UpdateProduct() {
                                     </div>
                                 ) : (
                                     <div className="text-center">
-                                        <img src={`http://localhost:8080/api/v1/product/product-image/${state._id}`}
+                                        <img src={state.image.secure_url}
                                             alt="product image"
                                             height={"200px"}
                                             className="img img-responsive"

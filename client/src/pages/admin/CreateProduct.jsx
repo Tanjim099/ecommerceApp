@@ -42,7 +42,7 @@ function CreateProduct() {
         console.log(response)
         if (response?.payload?.success) {
             toast.success("Product Created Successfully");
-            navigate("/")
+            // navigate("/")
         }
     }
     useEffect(() => {
