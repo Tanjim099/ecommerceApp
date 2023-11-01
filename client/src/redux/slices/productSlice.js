@@ -107,7 +107,15 @@ export const productCount = createAsyncThunk("product/count", async () => {
 //GET PRODUCT OR PAGINATION
 // export const 
 
-
+//SIMILAR PRODUCT
+export const relatedProducts = createAsyncThunk("product/related", async (data) => {
+    try {
+        const response = axiosInstance.get(`/product/related-product/${data[0]}/${data[1]}`)
+        return (await response).data
+    } catch (error) {
+        toast.error(error?.response?.data?.message);
+    }
+})
 
 const productSlice = createSlice({
     name: "product",

@@ -35,6 +35,7 @@ function HomePage() {
 
     async function loadMore() {
         const response = await dispatch(getAllProducts(page));
+        console.log(response)
         if (response?.payload?.success) {
             setProductList([...productList, ...response?.payload?.products])
         }
@@ -130,7 +131,7 @@ function HomePage() {
                                     <p className="card-text">
                                         {p.description.substring(0, 30)}...
                                     </p>
-                                    <p className="card-text"> {p.price}</p>
+                                    <p className="card-text">₹ {p.price}</p>
                                     <button class="btn btn-primary ms-1" onClick={() => navigate(`/product/${p.slug}`, { state: p })}>More Details</button>
                                     <button class="btn btn-secondary ms-1">ADD TO CART</button>
                                 </div>

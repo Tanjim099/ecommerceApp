@@ -1,7 +1,9 @@
 import { useSelector } from "react-redux";
 import Layout from "../components/Layout/Layout";
+import { useNavigate } from "react-router-dom";
 
 function Search() {
+    const navigate = useNavigate()
     const { result } = useSelector((state) => state?.search)
     console.log(result)
     return (
@@ -28,7 +30,7 @@ function Search() {
                                         {p.description.substring(0, 30)}...
                                     </p>
                                     <p className="card-text"> $ {p.price}</p>
-                                    <button class="btn btn-primary ms-1">More Details</button>
+                                    <button class="btn btn-primary ms-1" onClick={() => navigate(`/product/${p.slug}`, { state: p })} >More Details</button>
                                     <button class="btn btn-secondary ms-1">ADD TO CART</button>
                                 </div>
                             </div>
