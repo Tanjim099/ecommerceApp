@@ -2,13 +2,15 @@ import express from "express";
 import { isAdmin, requredSignIn, validateBody } from "../middlewares/authMiddleware.js";
 import { createProduct, deleteProduct, filterProduct, getAllProducts, getProduct, productImage, updateProduct } from "../controllers/productController.js";
 import formidable from "express-formidable"
+import upload from "../middlewares/multerMiddleware.js";
+// import { createProducts } from "../controllers/filterProduct.js";
 
 const productRouter = express.Router();
 
 //ROUTES
 
 //CREATE PRODUCT
-productRouter.post("/create-product", requredSignIn, isAdmin, formidable(), createProduct);
+productRouter.post("/create-product", upload.single('image'), requredSignIn, isAdmin, createProduct);
 
 //GET ALL PRODUCT
 productRouter.get("/getall-products", getAllProducts);
@@ -26,6 +28,6 @@ productRouter.delete("/delete-product/:pid", deleteProduct);
 productRouter.put("/update-product/:pid", requredSignIn, isAdmin, formidable(), updateProduct);
 
 //FILTER PRODUCT
-productRouter.post("/filters-product", validateBody, filterProduct)
+productRouter.post("/filters-product", filterProduct)
 
 export default productRouter

@@ -6,8 +6,7 @@ const productSchema = new mongoose.Schema({
         required: true
     },
     slug: {
-        type: String,
-        required: true
+        type: String
     },
     description: {
         type: String,
@@ -27,8 +26,14 @@ const productSchema = new mongoose.Schema({
         required: true
     },
     image: {
-        data: Buffer,
-        contentType: String
+        public_id: {
+            type: String,
+            required: true
+        },
+        secure_url: {
+            type: String,
+            required: true
+        }
     },
     shipping: {
         type: Boolean

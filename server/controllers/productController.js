@@ -1,48 +1,59 @@
 import slugify from "slugify";
 import productModel from "../models/productModel.js";
 import cloudinary from 'cloudinary';
-import fs from 'fs'
+import fs from 'fs/promises'
 import path from 'path';
 
 
 //CREATE PRODUCT
 export const createProduct = async (req, res) => {
-    try {
-        const { name, description, price, category, quantity, shipping } = req.fields;
-        const { image } = req.files;
-
-        //VALIDATION
-        if (!name || !description || !price || !category || !quantity || !image || image > 1000000) {
-            res.status(500).send({
-                message: "All Fields are required"
-            })
-        };
-
-        const products = await new productModel({ ...req.fields, slug: slugify(name) });
-        if (image) {
-            products.image.data = fs.readFileSync(image.path);
-            products.image.contentType = image.type;
-        }
-        await products.save();
-        res.status(200).send({
-            success: true,
-            message: "Product Created Successfully",
-            products
-        })
-    } catch (error) {
-        console.log(error);
-        res.status(501).send({
-            success: false,
-            message: "Error while creating product",
-            error
+    const { name, description, price, category, quantity, shipping } = req.body;
+    // console.log(req.body)
+    if (!name || !description || !price || !category || !quantity) {
+        res.status(500).send({
+            message: "All Fields are required"
         })
     }
+    const product = await productModel.create({
+        name,
+        slug: slugify(name),
+        description,
+        price,
+        category,
+        quantity,
+        shipping,
+        image: {
+            public_id: 'DUMMY',
+            secure_url: 'DUMMY'
+        }
+    });
+
+    // console.log(req.file)
+
+    if (req.file) {
+        const result = await cloudinary.v2.uploader.upload(req.file.path, {
+            folder: 'ecommerceApp',
+        });
+        // console.log(result.secure_url)
+
+        if (result) {
+            product.image.public_id = result.public_id;
+            product.image.secure_url = result.secure_url;
+        }
+        fs.rm(`uploads/${req.file.filename}`)
+    }
+    await product.save();
+    res.status(200).json({
+        success: true,
+        massage: 'Course created successfully',
+        product
+    })
 }
 
 //GET ALL PRODUCT
 export const getAllProducts = async (req, res) => {
     try {
-        const products = await productModel.find({}).populate("category").select("-image").limit(12).sort({ createdAt: -1 });
+        const products = await productModel.find({}).populate("category").limit(12).sort({ createdAt: -1 });
         res.status(200).send({
             success: true,
             message: "All Products",
@@ -137,9 +148,24 @@ export const updateProduct = async (req, res) => {
             { ...req.fields, slug: slugify(name) },
             { new: true }
         );
-        if (image) {
-            products.image.data = fs.readFileSync(image.path);
-            products.image.contentType = image.type;
+        if (req.file) {
+            await cloudinary.v2.uploader.destroy(products.image.public_id);
+
+            const result = await cloudinary.v2.uploader.upload(req.file.path, {
+                folder: 'ecommerceApp',
+                width: 250,
+                height: 250,
+                gravity: 'faces',
+                crop: 'fill'
+            });
+
+            if (result) {
+                products.image.public_id = result.public_id;
+                products.image.secure_url = result.secure_url;
+
+                // remove file from local server
+                fs.rm(`uploads/${req.file.filename}`);
+            }
         }
         await products.save();
         res.status(200).send({
@@ -157,30 +183,29 @@ export const updateProduct = async (req, res) => {
     }
 }
 
-//FILTER PRODUCT
 export const filterProduct = async (req, res) => {
     try {
-        const { checked, radio } = req.body;
-        console.log(req.body)
-
-        if (typeof checked === "undefined" || typeof radio === "undefined") {
-            return res.status(400).send({ success: false, message: "Missing required parameters" });
-        }
         // const { checked, radio } = req.body;
+        const filterData = req.body
+        const checked = filterData[0]
+        const radio = filterData[1]
+        console.log(filterData)
+        console.log(checked); // Logging received parameters
+        console.log("yes");
+
+        // if (typeof checked === "undefined" || typeof radio === "undefined") {
+        //     return res.status(400).send({ success: false, message: "Missing required parameters" });
+        // }
+
         let args = {};
+
         if (checked.length > 0) args.category = checked;
         if (radio.length) args.price = { $gte: radio[0], $lte: radio[1] };
+
         const products = await productModel.find(args);
-        res.status(200).send({
-            success: true,
-            products
-        })
+        res.status(200).send({ success: true, products });
     } catch (error) {
         console.log(error);
-        res.status(501).send({
-            success: false,
-            message: "Error while Filtering Products",
-            error
-        })
+        res.status(501).send({ success: false, message: "Error while Filtering Products", error });
     }
-}
+};
