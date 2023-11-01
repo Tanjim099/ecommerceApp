@@ -16,18 +16,7 @@ const SearchInput = () => {
         if (response?.payload.length > 1) {
             navigate("/search")
         }
-        // navigate("/search")
     };
-
-    //   try {
-    //     const { data } = await axios.get(
-    //       `/api/v1/product/search/${values.keyword}`
-    //     );
-    //     setValues({ ...values, results: data });
-    //     navigate("/search");
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
     return (
         <div>
             <form className="d-flex" role="search">
