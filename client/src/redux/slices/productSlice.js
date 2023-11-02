@@ -4,7 +4,9 @@ import toast from "react-hot-toast";
 
 const initialState = {
     productList: [],
-    total: 0
+    total: 0,
+    productByCategory: [],
+    category: []
 }
 
 //CREATE PRODUCT
@@ -117,6 +119,16 @@ export const relatedProducts = createAsyncThunk("product/related", async (data) 
     }
 })
 
+
+//GET PRODUCT BY CATEGORY
+export const getProductByCategory = createAsyncThunk("product/bycategory", async (slug) => {
+    try {
+        const response = await axiosInstance.get(`/product/product-category/${slug}`);
+        return (await response).data
+    } catch (error) {
+        toast.error(error?.response?.data?.message);
+    }
+})
 const productSlice = createSlice({
     name: "product",
     initialState,
@@ -128,6 +140,13 @@ const productSlice = createSlice({
             })
             .addCase(productCount.fulfilled, (state, action) => {
                 state.total = action?.payload?.total
+            })
+            .addCase(getProductByCategory.fulfilled, (state, action) => {
+                console.log(action)
+                state.productByCategory = action?.payload?.products
+                state.category = action?.payload?.category
+                console.log(state.productByCategory)
+                console.log(state.category)
             })
     }
 });

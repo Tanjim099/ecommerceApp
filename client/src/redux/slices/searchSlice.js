@@ -25,7 +25,7 @@ const searchSlice = createSlice({
         builder
             .addCase(searchProduct.fulfilled, (state, action) => {
                 state.result = action?.payload
-                console.log(action)
+                console.log(state.result)
             })
     }
 })

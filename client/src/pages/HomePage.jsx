@@ -7,6 +7,8 @@ import { Checkbox, Radio } from "antd";
 import { getCategories } from "../redux/slices/categorySlice";
 import { Prices } from "../components/Prices";
 import { useNavigate } from "react-router-dom";
+import { addItem } from "../redux/slices/cartSlice";
+import toast from "react-hot-toast";
 
 function HomePage() {
     const dispatch = useDispatch();
@@ -70,6 +72,15 @@ function HomePage() {
         setProductList(response?.payload?.products)
         console.log(response)
     }
+
+    function onAddToCart(item) {
+        console.log("yes")
+        // localStorage.setItem("cart", JSON.stringify([...item]))
+        dispatch(addItem(item))
+        toast.success("Item Added to cart")
+    }
+    const { items } = useSelector((state) => state?.cart);
+    console.log(items)
     useEffect(() => {
         onloadGetProductCount()
         onGetData()
@@ -133,7 +144,7 @@ function HomePage() {
                                     </p>
                                     <p className="card-text">₹ {p.price}</p>
                                     <button class="btn btn-primary ms-1" onClick={() => navigate(`/product/${p.slug}`, { state: p })}>More Details</button>
-                                    <button class="btn btn-secondary ms-1">ADD TO CART</button>
+                                    <button class="btn btn-secondary ms-1" onClick={() => onAddToCart(p)}>ADD TO CART</button>
                                 </div>
                             </div>
                         ))}

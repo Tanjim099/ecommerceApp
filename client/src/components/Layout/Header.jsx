@@ -4,12 +4,15 @@ import { useDispatch, useSelector } from "react-redux"
 import { logout } from "../../redux/slices/authSlice";
 import { useEffect, useState } from "react";
 import SearchInput from "../Form/SearchInput";
+import { getCategories } from "../../redux/slices/categorySlice";
+import { Badge } from "antd";
 function Header() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn);
     const getUserData = localStorage.getItem("userData")
     let userData = JSON.parse(getUserData);
+    const [categories, setCategories] = useState([])
     // console.log(userData)
     // const userData = useSelector((state) => state?.auth.data);
     async function onLogout(e) {
@@ -19,8 +22,17 @@ function Header() {
             navigate("/")
         }
     }
-    const { categoryData } = useSelector((state) => state?.category)
-    console.log(categoryData)
+    async function onLoadCategories() {
+        const response = await dispatch(getCategories())
+        if (response?.payload.success) {
+            setCategories(response?.payload?.category)
+        }
+    }
+
+    const { items } = useSelector((state) => state?.cart);
+    useEffect(() => {
+        onLoadCategories()
+    }, [])
     return (
         <>
             <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -52,7 +64,7 @@ function Header() {
                                             All Categories
                                         </Link>
                                     </li>
-                                    {categoryData?.map((c) => (
+                                    {categories?.map((c) => (
                                         <li>
                                             <Link
                                                 className="dropdown-item"
@@ -107,9 +119,11 @@ function Header() {
                                 </>
                             )}
                             <li className="nav-item">
-                                <NavLink to="/cart" className="nav-link" >
-                                    Cart (0)
-                                </NavLink>
+                                <Badge count={items?.length} showZero>
+                                    <NavLink to="/cart" className="nav-link">
+                                        Cart
+                                    </NavLink>
+                                </Badge>
                             </li>
 
                         </ul>
