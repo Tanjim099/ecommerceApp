@@ -3,6 +3,7 @@ import productModel from "../models/productModel.js";
 import cloudinary from 'cloudinary';
 import fs from 'fs/promises'
 import path from 'path';
+import categoryModel from "../models/categoryModel.js";
 
 
 //CREATE PRODUCT
@@ -278,6 +279,27 @@ export const relatedProducts = async (req, res) => {
         }).limit(3).populate("category");
         res.status(200).send({
             success: true,
+            products
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(501).send({
+            success: false,
+            message: "Error in getting related Products",
+            error
+        })
+    }
+}
+
+//GET PRODUCTS BY CATEGORY
+export const productCategory = async (req, res) => {
+    try {
+        const { slug } = req.params;
+        const category = await categoryModel.findOne({ slug });
+        const products = await productModel.find({ category }).populate("category")
+        res.status(200).send({
+            success: true,
+            category,
             products
         })
     } catch (error) {
