@@ -41,7 +41,7 @@ function HomePage() {
         }
     }
 
-    const categories = useSelector((state) => state?.category?.categoryData?.category);
+    const categories = useSelector((state) => state?.category?.categoryData);
     async function onGetData() {
         const response = await dispatch(getCategories())
         console.log(response)

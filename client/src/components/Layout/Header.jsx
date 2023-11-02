@@ -2,7 +2,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom"
 import { FaShopware } from "react-icons/fa"
 import { useDispatch, useSelector } from "react-redux"
 import { logout } from "../../redux/slices/authSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import SearchInput from "../Form/SearchInput";
 function Header() {
     const dispatch = useDispatch();
@@ -19,6 +19,8 @@ function Header() {
             navigate("/")
         }
     }
+    const { categoryData } = useSelector((state) => state?.category)
+    console.log(categoryData)
     return (
         <>
             <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -36,10 +38,31 @@ function Header() {
                             <li className="nav-item">
                                 <NavLink to="/" className="nav-link" aria-current="page">Home</NavLink>
                             </li>
-                            <li className="nav-item">
-                                <NavLink to="/category" className="nav-link" aria-current="page">
-                                    Category
-                                </NavLink>
+                            <li className="nav-item dropdown">
+                                <Link
+                                    className="nav-link dropdown-toggle"
+                                    to={"/categories"}
+                                    data-bs-toggle="dropdown"
+                                >
+                                    Categories
+                                </Link>
+                                <ul className="dropdown-menu">
+                                    <li>
+                                        <Link className="dropdown-item" to={"/categories"}>
+                                            All Categories
+                                        </Link>
+                                    </li>
+                                    {categoryData?.map((c) => (
+                                        <li>
+                                            <Link
+                                                className="dropdown-item"
+                                                to={`/category/${c.slug}`}
+                                            >
+                                                {c.name}
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
                             </li>
                             {!isLoggedIn ? (<>
                                 <li className="nav-item">

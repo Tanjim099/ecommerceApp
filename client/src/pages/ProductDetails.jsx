@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Layout from "../components/Layout/Layout";
 import { useDispatch } from "react-redux";
 import { relatedProducts } from "../redux/slices/productSlice";
@@ -6,13 +6,13 @@ import { useEffect, useState } from "react";
 
 function ProductDetails() {
     const dispatch = useDispatch();
+    const navigate = useNavigate()
     const { state } = useLocation();
     const [relatedProductsList, setRelatedProductsList] = useState([])
     console.log(relatedProductsList)
 
     async function onLoadGetSilimarProduct() {
         const response = await dispatch(relatedProducts([state._id, state.category._id]))
-        console.log(response)
         if (response?.payload?.success) {
             setRelatedProductsList(response?.payload?.products)
         }
@@ -56,7 +56,7 @@ function ProductDetails() {
                                 <p className="card-text"> ₹ {p.price}</p>
                                 <button
                                     className="btn btn-primary ms-1"
-                                    onClick={() => navigate(`/product/${p.slug}`)}
+                                    onClick={() => navigate(`/product/${p.slug}`, { state: p })}
                                 >
                                     More Details
                                 </button>

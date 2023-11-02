@@ -74,7 +74,8 @@ const categorySlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getCategories.fulfilled, (state, action) => {
-                state.categoryData = action.payload; // Directly assign the response data
+                state.categoryData = action?.payload?.category; // Directly assign the response data
+                console.log(state.categoryData)
             })
     }
 });
