@@ -10,8 +10,7 @@ function Header() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn);
-    const getUserData = localStorage.getItem("userData")
-    let userData = JSON.parse(getUserData);
+    const [userData, setUserData] = useState([])
     const [categories, setCategories] = useState([])
     // console.log(userData)
     // const userData = useSelector((state) => state?.auth.data);
@@ -32,6 +31,9 @@ function Header() {
     const { items } = useSelector((state) => state?.cart);
     useEffect(() => {
         onLoadCategories()
+        const getUserData = localStorage.getItem("userData")
+        let userData = JSON.parse(getUserData);
+        setUserData(userData)
     }, [])
     return (
         <>

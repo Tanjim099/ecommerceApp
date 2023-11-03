@@ -2,8 +2,10 @@ import { useDispatch, useSelector } from "react-redux";
 import Layout from "../components/Layout/Layout";
 import { removeItem } from "../redux/slices/cartSlice";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 function CartPage() {
     const dispatch = useDispatch();
+    const navigate = useNavigate()
     const [cartItem, setCartItem] = useState([])
     const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn);
     const getUserData = localStorage.getItem("userData")
@@ -36,7 +38,7 @@ function CartPage() {
                 <div className="row">
                     <div className="col-md-12">
                         <h1 className="text-center bg-light p-2 mb-1">
-                            {`Hello ${userData.name}`}
+                            {userData?.name ? (`Hello ${userData.name}`) : (" Hello User")}
                         </h1>
                         <h4 className="text-center">
                             {items?.length
@@ -78,6 +80,42 @@ function CartPage() {
                         <p>Total | Checkout | Payment</p>
                         <hr />
                         <h4>Total : {totalPrice()}</h4>
+                        {userData?.address ? (
+                            <>
+                                <div className="mb-3">
+                                    <h4>Current Address</h4>
+                                    <p>{userData?.address}</p>
+                                    <button
+                                        className="btn btn-outline-warning"
+                                        onClick={() => navigate("/dashboard/user/profile")}
+                                    >
+                                        Update Address
+                                    </button>
+                                </div>
+                            </>
+                        ) : (
+                            <div className="mb-3">
+                                {isLoggedIn ? (
+                                    <button
+                                        className="btn btn-outline-warning"
+                                        onClick={() => navigate("/dashboard/user/profile")}
+                                    >
+                                        Update Address
+                                    </button>
+                                ) : (
+                                    <button
+                                        className="btn btn-outline-warning"
+                                        onClick={() =>
+                                            navigate("/login", {
+                                                state: "/cart",
+                                            })
+                                        }
+                                    >
+                                        Plase Login to checkout
+                                    </button>
+                                )}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

@@ -5,7 +5,7 @@ import axiosInstance from "../../config/axiosInstance";
 const initialState = {
     isLoggedIn: localStorage.getItem("isLoggedIn") || false,
     role: localStorage.getItem("role") || "",
-    data: localStorage.getItem("data") || {}
+    data: localStorage.getItem("userData") || {}
 };
 
 
@@ -76,6 +76,23 @@ export const logout = createAsyncThunk("/auth/logout", async () => {
 
     }
 })
+
+//UPDATE PROFILE
+export const updateProfile = createAsyncThunk("/auth/update", async (data) => {
+    try {
+        const response = axiosInstance.put("/auth/update-profile", data);
+        toast.promise(response, {
+            loading: "Wait! Updating Proflie",
+            success: (data) => {
+                return data?.data?.message
+            },
+            error: "Failed to Update Profle"
+        })
+        return (await response).data
+    } catch (error) {
+        toast.error(error?.response?.data.message)
+    }
+})
 const authSlice = createSlice({
     name: "auth",
     initialState,
@@ -94,7 +111,7 @@ const authSlice = createSlice({
             .addCase(logout.fulfilled, (state, action) => {
                 var keyIsLogin = "isLoggedIn"
                 var keyRole = "role"
-                var keyData = "data"
+                var keyData = "userData"
                 localStorage.removeItem(keyIsLogin)
                 localStorage.removeItem(keyRole)
                 localStorage.removeItem(keyData)
@@ -110,6 +127,11 @@ const authSlice = createSlice({
                 state.isLoggedIn = true;
                 state.data = action?.payload?.user;
                 state.role = action?.payload?.user?.role;
+            })
+            .addCase(updateProfile.fulfilled, (state, action) => {
+                console.log(action)
+                localStorage.setItem("userData", JSON.stringify(action?.payload?.updatedUser))
+                state.data = action?.payload?.updatedUser;
             })
     }
 });
