@@ -1,5 +1,5 @@
 import express from "express"
-import { forgotPassword, logout, test, userLogin, userRegister } from "../controllers/authController.js";
+import { forgotPassword, logout, test, updateProfile, userLogin, userRegister } from "../controllers/authController.js";
 import { isAdmin, requredSignIn } from "../middlewares/authMiddleware.js";
 
 //router object
@@ -19,6 +19,9 @@ router.post("/forgot-password", forgotPassword)
 //LOGOUT || METHOD GET
 router.get("/logout", logout)
 //TEST
-router.get("/test", requredSignIn, isAdmin, test)
+router.get("/test", requredSignIn, isAdmin, test);
+
+//UPDATE PROFILE
+router.put("/update-profile", requredSignIn, updateProfile)
 
 export default router
