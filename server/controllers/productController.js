@@ -4,6 +4,18 @@ import cloudinary from 'cloudinary';
 import fs from 'fs/promises'
 import path from 'path';
 import categoryModel from "../models/categoryModel.js";
+import braintree from "braintree"
+import orderModel from "../models/orderModel.js";
+import dotenv from "dotenv"
+
+dotenv.config();
+//PAYMENT GETEWAY
+var gateway = new braintree.BraintreeGateway({
+    environment: braintree.Environment.Sandbox,
+    merchantId: process.env.BRAINTREE_MEARCHANT_ID,
+    publicKey: process.env.BRAINTREE_PUBLIC_KEY,
+    privateKey: process.env.BRAINTREE_PRIVATE_KEY,
+});
 
 
 //CREATE PRODUCT
@@ -309,5 +321,56 @@ export const productCategory = async (req, res) => {
             message: "Error in getting related Products",
             error
         })
+    }
+}
+
+//PAYMENT GETEWAY
+export const braintreeToken = async (req, res) => {
+    try {
+        gateway.clientToken.generate({}, function (err, response) {
+            if (err) {
+                res.status(500).send(err)
+            }
+            else {
+                res.status(200).send(response)
+            }
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+//PAYMENTS
+export const braintreePayment = async (req, res) => {
+    try {
+        const { nonce, items } = req.body;
+        let total = 0;
+        items.map((i) => {
+            total += i.price;
+        });
+        let newTransaction = gateway.transaction.sale(
+            {
+                amount: total,
+                paymentMethodNonce: nonce,
+                options: {
+                    submitForSettlement: true,
+                },
+            },
+            function (error, result) {
+                if (result) {
+                    const order = new orderModel({
+                        products: items,
+                        payment: result,
+                        buyer: req.user._id,
+                    }).save();
+                    res.json({ ok: true });
+                } else {
+                    res.status(500).send(error);
+                }
+            }
+        );
+    } catch (error) {
+        console.log(error);
     }
 }
