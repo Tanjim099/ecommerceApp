@@ -31,22 +31,22 @@ function Orders() {
                                     <table className="table">
                                         <thead>
                                             <tr>
-                                                <td className="col">#</td>
-                                                <td className="col">Status</td>
-                                                <td className="col">Buyer</td>
-                                                <td className="col">Order Date</td>
-                                                <td className="col">Payment</td>
-                                                <td className="col">Quantity</td>
+                                                <th className="col">#</th>
+                                                <th className="col">Status</th>
+                                                <th className="col">Buyer</th>
+                                                <th className="col">Order Date</th>
+                                                <th className="col">Payment</th>
+                                                <th className="col">Quantity</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <th>{i + 1}</th>
-                                                <th>{order?.status}</th>
-                                                <th>{order?.buyer?.name}</th>
-                                                <th>{moment(order?.createAt).fromNow()}</th>
-                                                <th>{order?.payment?.success ? "Success" : "Failed"}</th>
-                                                <th>{order?.products?.length}</th>
+                                                <td>{i + 1}</td>
+                                                <td>{order?.status}</td>
+                                                <td>{order?.buyer?.name}</td>
+                                                <td>{moment(order?.createAt).fromNow()}</td>
+                                                <td>{order?.payment?.success ? "Success" : "Failed"}</td>
+                                                <td>{order?.products?.length}</td>
                                             </tr>
                                         </tbody>
                                     </table>
