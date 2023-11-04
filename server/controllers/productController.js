@@ -345,6 +345,8 @@ export const braintreeToken = async (req, res) => {
 export const braintreePayment = async (req, res) => {
     try {
         const { nonce, items } = req.body;
+        console.log("nonce", nonce)
+        console.log("items", items)
         let total = 0;
         items.map((i) => {
             total += i.price;
@@ -372,5 +374,35 @@ export const braintreePayment = async (req, res) => {
         );
     } catch (error) {
         console.log(error);
+    }
+}
+
+//GET ORDERS
+export const getOrders = async (req, res) => {
+    try {
+        const orders = await orderModel.find({ buyer: req.user._id }).populate("products").populate("buyer", "name")
+        res.json(orders)
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            success: false,
+            message: "Error While getting Orders",
+            error
+        })
+    }
+}
+
+//GET ALL ORDERS
+export const getAllOrders = async (req, res) => {
+    try {
+        const orders = await orderModel.find().populate("products").populate("buyer", "name").sort({ createdAt: "-1" })
+        res.json(orders)
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            success: false,
+            message: "Error While getting Orders",
+            error
+        })
     }
 }

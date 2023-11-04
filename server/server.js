@@ -9,6 +9,7 @@ import categoryRoutes from "./routes/categoryRoute.js";
 import productRoutes from "./routes/productRoute.js";
 import cookieParser from "cookie-parser";
 import cloudinary from 'cloudinary'
+import orderRoutes from "./routes/orderRoute.js";
 
 
 //configure env
@@ -47,6 +48,7 @@ cloudinary.v2.config({
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/category", categoryRoutes);
 app.use("/api/v1/product", productRoutes);
+app.use("/api/v1/order", orderRoutes);
 
 //rest api
 app.get("/", (req, res) => {
