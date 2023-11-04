@@ -49,7 +49,7 @@ function CartPage() {
 
     const handlePayment = async () => {
         const { nonce } = await instance.requestPaymentMethod();
-        const response = await dispatch(payment({ nonce, items }))
+        const response = await dispatch(payment([nonce, items]))
         console.log(response)
         localStorage.removeItem("cartItems");
         navigate("/dashboard/user/orders");

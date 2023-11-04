@@ -146,6 +146,7 @@ export const payment = createAsyncThunk("/product/payment", async (payload, thun
     try {
         console.log(payload)
         // const { nonce, items } = payload;
+        console.log(payload[0])
         const nonce = payload[0]
         const items = payload[1]
         console.log(nonce, items)
