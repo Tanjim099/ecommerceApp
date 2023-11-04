@@ -1,17 +1,22 @@
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Layout from "../components/Layout/Layout";
 import { removeItem } from "../redux/slices/cartSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import DropIn from "braintree-web-drop-in-react";
+import { getBrainTreeToken, payment } from "../redux/slices/productSlice";
+import toast from "react-hot-toast";
 function CartPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const [cartItem, setCartItem] = useState([])
+    const [clientToken, setClientToken] = useState("")
+    const [instance, setInstance] = useState("")
     const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn);
     const getUserData = localStorage.getItem("userData")
     let userData = JSON.parse(getUserData);
     const { items } = useSelector((state) => state?.cart);
-
     //TOTAL PRICE
     const totalPrice = () => {
         try {
@@ -31,6 +36,24 @@ function CartPage() {
     async function removeCartItem(e, p) {
         e.preventDefault
         await dispatch(removeItem(p))
+    }
+
+    async function getBrainTreeTokens() {
+        const response = await dispatch(getBrainTreeToken())
+        setClientToken(response?.payload?.clientToken)
+        console.log(response)
+    }
+    useEffect(() => {
+        getBrainTreeTokens()
+    }, [isLoggedIn])
+
+    const handlePayment = async () => {
+        const { nonce } = await instance.requestPaymentMethod();
+        const response = await dispatch(payment({ nonce, items }))
+        console.log(response)
+        localStorage.removeItem("cartItems");
+        navigate("/dashboard/user/orders");
+        toast.success("Payment Completed Successfully ");
     }
     return (
         <Layout title={"Cart"}>
@@ -116,6 +139,31 @@ function CartPage() {
                                 )}
                             </div>
                         )}
+                        <div className="mt-2">
+                            {!clientToken || !items?.length ? (
+                                ""
+                            ) : (
+                                <>
+                                    <DropIn
+                                        options={{
+                                            authorization: clientToken,
+                                            paypal: {
+                                                flow: "vault",
+                                            },
+                                        }}
+                                        onInstance={(instance) => setInstance(instance)}
+                                    />
+
+                                    <button
+                                        className="btn btn-primary"
+                                        onClick={handlePayment}
+                                        disabled={!instance || !isLoggedIn || !userData?.address}
+                                    >
+                                        Make Payment
+                                    </button>
+                                </>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

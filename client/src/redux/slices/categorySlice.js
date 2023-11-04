@@ -75,7 +75,6 @@ const categorySlice = createSlice({
         builder
             .addCase(getCategories.fulfilled, (state, action) => {
                 state.categoryData = action?.payload?.category; // Directly assign the response data
-                console.log(state.categoryData)
             })
     }
 });

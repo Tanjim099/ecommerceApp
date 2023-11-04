@@ -6,7 +6,8 @@ const initialState = {
     productList: [],
     total: 0,
     productByCategory: [],
-    category: []
+    category: [],
+    braintreeToken: ""
 }
 
 //CREATE PRODUCT
@@ -129,6 +130,31 @@ export const getProductByCategory = createAsyncThunk("product/bycategory", async
         toast.error(error?.response?.data?.message);
     }
 })
+
+//GET BRAINTREE TOKEN
+export const getBrainTreeToken = createAsyncThunk("/product/getbraintoken", async () => {
+    try {
+        const response = await axiosInstance.get("/product/braintree/token");
+        return await response.data
+    } catch (error) {
+        toast.error(error?.response?.data?.message);
+    }
+})
+
+//PAYMENT
+export const payment = createAsyncThunk("/product/payment", async (payload, thunkAPI) => {
+    try {
+        console.log(payload)
+        // const { nonce, items } = payload;
+        const nonce = payload[0]
+        const items = payload[1]
+        console.log(nonce, items)
+        const response = axiosInstance.post("/product/braintree/payment", { nonce, items })
+        return (await response).data
+    } catch (error) {
+        toast.error(error?.response?.data?.message);
+    }
+})
 const productSlice = createSlice({
     name: "product",
     initialState,
@@ -147,6 +173,9 @@ const productSlice = createSlice({
                 state.category = action?.payload?.category
                 console.log(state.productByCategory)
                 console.log(state.category)
+            })
+            .addCase(getBrainTreeToken.fulfilled, (state, action) => {
+                console.log(action)
             })
     }
 });
