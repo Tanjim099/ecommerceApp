@@ -2,9 +2,11 @@ import { useEffect, useState } from "react"
 import AdminMenu from "../../components/Layout/AdminMenu"
 import Layout from "../../components/Layout/Layout"
 import { useDispatch } from "react-redux";
-import { getAllOrders } from "../../redux/slices/orderSlice";
+import { getAllOrders, orderStatus } from "../../redux/slices/orderSlice";
 import moment from "moment";
 import { Select } from "antd";
+import AdminLayout from "../../components/Layout/AdminLayout";
+import dateFormeter from "../../helper/dateFormater";
 const { Option } = Select;
 
 
@@ -21,79 +23,88 @@ function AdminOrders() {
     useEffect(() => {
         onLoadGetAllOrders()
     }, [])
+
+    const handleChange = async (orderId, value) => {
+        const response = await dispatch(orderStatus([orderId, value]));
+        console.log(response)
+    }
     return (
-        <Layout title={"All Orders"}>
-            <div className="row">
-                <div className="col-md-3">
-                    <AdminMenu />
-                </div>
-                <div className="col-md-9">
-                    <h1 className="text-center">All Orders</h1>
-                    {orderList?.map((order, i) => {
-                        return (
-                            <div className="border shadow">
-                                <table className="table">
+        <AdminLayout>
+            <div className="allOrdersContainer mt-5">
+
+                {orderList?.map((order, i) => {
+                    return (
+                        <div key={i} className="border shadow  mt-3 ">
+                            <table className="table " style={{ width: "100%" }}>
+                                <thead >
+                                    <tr >
+                                        <th scope="col">#</th>
+                                        <th className="">Status</th>
+                                        <th className="">Buyer</th>
+                                        <th className="">Order Date</th>
+                                        <th className="">Payment</th>
+                                        <th className="">Total Items</th>
+                                        <th >Deliver Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{i + 1}</td>
+                                        <td>
+                                            <Select
+                                                bordered={false}
+                                                onChange={(value) => handleChange(order._id, value)}
+                                                defaultValue={order?.status}
+                                            >
+                                                {status?.map((s, i) => {
+                                                    return (
+                                                        <Option key={i} value={s}>
+                                                            {s}
+                                                        </Option>
+                                                    )
+                                                })}
+                                            </Select>
+                                        </td>
+                                        <td>{order?.buyer?.name}</td>
+                                        {/* <td>{moment(order?.createdAt).fromNow()}</td> */}
+                                        <td>{dateFormeter(order?.createdAt)}</td>
+                                        <td>{order?.payment?.success ? "Success" : "Failed"}</td>
+                                        <td>{order?.products?.length}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div className="px-5 d-md-flex flex-column">
+                                <table>
                                     <thead>
                                         <tr>
-                                            <th className="col">#</th>
-                                            <th className="col">Status</th>
-                                            <th className="col">Buyer</th>
-                                            <th className="col">Order Date</th>
-                                            <th className="col">Payment</th>
-                                            <th className="col">Quantity</th>
+                                            <th >No</th>
+                                            <th >Product Name</th>
+                                            <th >Price</th>
+                                            <th >Quantity</th>
+                                            <th >Product Image</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>{i + 1}</td>
-                                            <td>
-                                                <Select
-                                                    bordered={false}
-                                                    onChange={(value) => setChangeStatus(value)}
-                                                    defaultValue={order?.status}
-                                                >
-                                                    {status?.map((s, i) => {
-                                                        return (
-                                                            <Option key={i} value={status}>
-                                                                {s}
-                                                            </Option>
-                                                        )
-                                                    })}
-                                                </Select>
-                                            </td>
-                                            <td>{order?.buyer?.name}</td>
-                                            <td>{moment(order?.createAt).fromNow()}</td>
-                                            <td>{order?.payment?.success ? "Success" : "Failed"}</td>
-                                            <td>{order?.products?.length}</td>
-                                        </tr>
+                                        {order?.products?.map((p, i) => (
+
+                                            <tr key={i}>
+                                                <th scope="row">{i + 1}</th>
+                                                <td>{p.name}</td>
+                                                <td>{p.price}</td>
+                                                <td>{p.itemQuantity}</td>
+                                                <td><img className="" style={{ width: "50px" }} src={p?.image} alt="" /></td>
+
+
+                                            </tr>
+                                        ))}
                                     </tbody>
                                 </table>
-                                <div className="container">
-                                    {order?.products?.map((p) => (
-                                        <div className="row mb-2 p-3 card flex-row" key={p._id}>
-                                            <div className="col-md-4">
-                                                <img
-                                                    src={p.image.secure_url}
-                                                    className="card-img-top"
-                                                    alt={p.name}
-                                                    width="100px"
-                                                    height={"100px"}
-                                                />
-                                            </div>
-                                            <div className="col-md-8">
-                                                <p>{p.name}</p>
-                                                <p>{p.description.substring(0, 30)}</p>
-                                                <p>Price : {p.price}</p>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
                             </div>
-                        )
-                    })}
-                </div>
+                        </div>
+                    )
+                })}
             </div>
-        </Layout>
+        </AdminLayout>
     )
 }
 

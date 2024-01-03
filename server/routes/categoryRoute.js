@@ -1,13 +1,14 @@
 import express from "express";
 import { isAdmin, requredSignIn } from "../middlewares/authMiddleware.js";
 import { createCategory, deleteCategory, getCategory, singleCategory, updateCategory } from "../controllers/categoryController.js";
+import upload from "../middlewares/multerMiddleware.js";
 
 const categoryRoutes = express.Router();
 
 //routes
 
 //CREATE CATEGORY
-categoryRoutes.post("/create-category", requredSignIn, isAdmin, createCategory);
+categoryRoutes.post("/create-category", upload.single('icon'), createCategory);
 
 
 //UPDATE CATEGORY

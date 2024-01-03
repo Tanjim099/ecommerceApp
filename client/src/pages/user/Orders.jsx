@@ -4,6 +4,8 @@ import UserMenu from "../../components/Layout/userMenu"
 import { useEffect, useState } from "react";
 import { getOrders } from "../../redux/slices/orderSlice";
 import moment from "moment"
+import dateFormeter from "../../helper/dateFormater";
+import "../../styles/Orders.css"
 
 function Orders() {
     const dispatch = useDispatch();
@@ -18,54 +20,56 @@ function Orders() {
     }, [])
     return (
         <Layout title={"User - Orders Page"}>
-            <div className="container-fluid">
-                <div className="row">
-                    <div className="col-md-3">
+            <div className="container-fluid col-12 col-lg-8 my-4 min-h-auto m-auto">
+                <div className="row gap-2 gap-md-2 gap-lg-0">
+                    <div className="col-md-12 col-lg-3 p-0">
                         <UserMenu />
                     </div>
-                    <div className="col-md-9">
-                        <h1>All Orders</h1>
+                    <div className="col-md-12 col-lg-9 p-0">
+                        <h1 className="text-center">All Orders</h1>
                         {orderList?.map((order, i) => {
                             return (
-                                <div className="border shadow">
-                                    <table className="table">
+                                <div className="border overflow-scroll  mb-3 orderCardBox">
+                                    <table className="table bg-success">
                                         <thead>
-                                            <tr>
-                                                <th className="col">#</th>
-                                                <th className="col">Status</th>
-                                                <th className="col">Buyer</th>
-                                                <th className="col">Order Date</th>
-                                                <th className="col">Payment</th>
-                                                <th className="col">Quantity</th>
+                                            <tr className="bg-success">
+                                                <th className="col bg-primary text-white">#</th>
+                                                <th className="col bg-primary text-white">Status</th>
+                                                <th className="col bg-primary text-white">Buyer</th>
+                                                <th className="col bg-primary text-white">Order Date</th>
+                                                <th className="col bg-primary text-white">Payment</th>
+                                                <th className="col bg-primary text-white">Quantity</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody >
                                             <tr>
                                                 <td>{i + 1}</td>
                                                 <td>{order?.status}</td>
                                                 <td>{order?.buyer?.name}</td>
-                                                <td>{moment(order?.createAt).fromNow()}</td>
+                                                <td>{dateFormeter(order?.createdAt)}</td>
                                                 <td>{order?.payment?.success ? "Success" : "Failed"}</td>
                                                 <td>{order?.products?.length}</td>
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <div className="container">
+                                    <div className=" d-md-flex flex-column">
                                         {order?.products?.map((p) => (
-                                            <div className="row mb-2 p-3 card flex-row" key={p._id}>
-                                                <div className="col-md-4">
-                                                    <img
-                                                        src={p.image.secure_url}
-                                                        className="card-img-top"
-                                                        alt={p.name}
-                                                        width="100px"
-                                                        height={"100px"}
-                                                    />
-                                                </div>
+                                            <div className=" p-2 d-md-flex justify-content-between " key={p._id}>
+
+
                                                 <div className="col-md-8">
                                                     <p>{p.name}</p>
-                                                    <p>{p.description.substring(0, 30)}</p>
+                                                </div>
+                                                <div className="col-md-2">
                                                     <p>Price : {p.price}</p>
+                                                </div>
+                                                <div className="col-md-0">
+                                                    <img
+                                                        src={p?.image}
+                                                        className="card-img-top"
+                                                        alt={p.name}
+                                                        style={{ width: "40px" }}
+                                                    />
                                                 </div>
                                             </div>
                                         ))}

@@ -1,0 +1,3 @@
+.orderCardBox::-webkit-scrollbar {
+    display: none;
+}

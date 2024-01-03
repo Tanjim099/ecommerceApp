@@ -8,6 +8,16 @@ const categorySchema = new mongoose.Schema({
     slug: {
         type: String,
         lowercase: true
+    },
+    icon: {
+        public_id: {
+            type: String,
+            required: true
+        },
+        secure_url: {
+            type: String,
+            required: true
+        }
     }
 });
 

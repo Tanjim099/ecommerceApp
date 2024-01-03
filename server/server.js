@@ -10,6 +10,8 @@ import productRoutes from "./routes/productRoute.js";
 import cookieParser from "cookie-parser";
 import cloudinary from 'cloudinary'
 import orderRoutes from "./routes/orderRoute.js";
+import statsRoutes from "./routes/miscellaneousRoute.js";
+import paymentRoutes from "./routes/paymentRoute.js";
 
 
 //configure env
@@ -49,6 +51,8 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/category", categoryRoutes);
 app.use("/api/v1/product", productRoutes);
 app.use("/api/v1/order", orderRoutes);
+app.use("/api/v1/payment", paymentRoutes);
+app.use("/api/v1/stat", statsRoutes);
 
 //rest api
 app.get("/", (req, res) => {

@@ -1,5 +1,7 @@
 import slugify from "slugify";
 import categoryModel from "../models/categoryModel.js";
+import cloudinary from 'cloudinary';
+import fs from 'fs/promises'
 
 //CREATE CATEGORY CONTROLLER
 export const createCategory = async (req, res) => {
@@ -17,7 +19,27 @@ export const createCategory = async (req, res) => {
             })
         }
 
-        const category = await new categoryModel({ name, slug: slugify(name), }).save();
+        const category = await new categoryModel({
+            name,
+            slug: slugify(name),
+            icon: {
+                public_id: "DUMMY",
+                secure_url: "DUMMY"
+            }
+        });
+
+        if (req.file) {
+            const result = await cloudinary.v2.uploader.upload(req.file.path, {
+                folder: 'ecommerceApp',
+            })
+
+            if (result) {
+                category.icon.public_id = result.public_id,
+                    category.icon.secure_url = result.secure_url
+            }
+            fs.rm(`uploads/${req.file.filename}`)
+        }
+        await category.save()
         res.status(200).send({
             success: true,
             message: "New Category Created",
@@ -65,7 +87,7 @@ export const getCategory = async (req, res) => {
             category
         })
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         res.status(501).send({
             success: false,
             message: "Error while getting category",

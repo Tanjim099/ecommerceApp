@@ -1,0 +1,125 @@
+.homePagContainer {
+    width: 90%;
+    margin: auto;
+}
+
+/* .carouselContainer {
+    height: 550px;
+    display: flex;
+}
+
+.carouselContainer img {
+    height: 100%;
+} */
+
+.filterBox {
+    height: fit-content;
+}
+
+.cardContainer {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#bigDeviceFilterBox {
+    display: block;
+    border-radius: 10px;
+    margin-top: 14px;
+    font-family: 'Nunito', sans-serif;
+
+}
+
+#bigDeviceFilterBox div h4 {
+    font-family: 'PT Sans', sans-serif;
+}
+
+
+.smallDeviceFilterBox {
+    display: none;
+}
+
+.section_02 {
+    display: flex;
+}
+
+.section_02 h1 {
+    font-family: 'DM Sans', sans-serif;
+
+}
+
+@media only screen and (max-width: 1190px) {
+    .homePagContainer {
+        width: 100%;
+    }
+
+    /* #bigDeviceFilterBox {
+        display: none;
+    } */
+
+    .smallDeviceFilterBox {
+        display: none;
+    }
+
+
+
+
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .homePagContainer {
+        width: 100%;
+    }
+
+    #bigDeviceFilterBox {
+        display: block;
+    }
+
+    .smallDeviceFilterBox {
+        display: none;
+    }
+
+    .smallDeviceFilterBox .filterBtn {
+        width: 100%;
+        display: flex;
+        gap: 20px;
+        border: 1px solid black;
+    }
+
+    .smallDeviceFilterBox .filterBtn button {
+        padding: 5px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .homePagContainer {
+        width: 100%;
+    }
+
+    #bigDeviceFilterBox {
+        display: none;
+    }
+
+    .smallDeviceFilterBox {
+        display: block;
+    }
+
+    .smallDeviceFilterBox .filterBtn {
+        width: 100%;
+        display: flex;
+        gap: 20px;
+        border: 1px solid black;
+    }
+
+    .smallDeviceFilterBox .filterBtn button {
+        padding: 5px;
+    }
+
+    .section_03_container {
+        display: flex;
+        gap: 10px;
+    }
+
+    .section_03_container_card-img-overlay h4 {
+        font-size: 13px;
+    }
+}

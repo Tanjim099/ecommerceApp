@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import Layout from "../components/Layout/Layout";
 import { useNavigate } from "react-router-dom";
+import ProductCart from "../components/ProductCard";
 
 function Search() {
     const navigate = useNavigate()
@@ -8,33 +9,20 @@ function Search() {
     console.log(result)
     return (
         <Layout title={"Search Result"}>
-            <div className="container">
+            <div className="container container-lg container-md container-sm container-xl container-xxl  max-w-90 mx-auto">
                 <div className="text-center">
-                    <h1>Search Resuts</h1>
+                    <h1 className="fs-4 mt-3">Search Resuts</h1>
                     <h6>
                         {result.length < 1
                             ? "No Products Found"
                             : `Found ${result.length}`}
                     </h6>
-                    <div className="d-flex flex-wrap mt-4">
-                        {result?.map((p) => (
-                            <div className="card m-2" style={{ width: "18rem" }}>
-                                <img
-                                    src={p.image.secure_url}
-                                    className="card-img-top"
-                                    alt={p.name}
-                                />
-                                <div className="card-body">
-                                    <h5 className="card-title">{p.name}</h5>
-                                    <p className="card-text">
-                                        {p.description.substring(0, 30)}...
-                                    </p>
-                                    <p className="card-text"> $ {p.price}</p>
-                                    <button class="btn btn-primary ms-1" onClick={() => navigate(`/product/${p.slug}`, { state: p })} >More Details</button>
-                                    <button class="btn btn-secondary ms-1">ADD TO CART</button>
-                                </div>
-                            </div>
-                        ))}
+                    <div className="col-md-12 offset-lg-1">
+                        <div className="d-flex flex-wrap  gap-1">
+                            {result?.map((p, i) => (
+                                <ProductCart key={i} title={p.name} image={p?.image?.secure_url} price={p.price} id={p._id} slug={p.slug} data={p} />
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

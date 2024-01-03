@@ -8,7 +8,11 @@ const loadCartItems = () => {
 const saveCartItems = (items) => {
     localStorage.setItem('cartItems', JSON.stringify(items));
 };
+const findItemIndex = (items, itemId) => {
+    return items.findIndex(item => item.id === itemId);
+};
 
+console.log(findItemIndex)
 const initialState = {
     items: loadCartItems(),
 };
@@ -18,11 +22,50 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         addItem: (state, action) => {
-            state.items.push(action.payload);
+            const { id, itemQuantity } = action.payload;
+            console.log(id, itemQuantity)
+            const existingItemIndex = findItemIndex(state.items, id);
+
+            if (existingItemIndex !== -1) {
+                // If the item is already in the cart, increment the quantity
+                state.items[existingItemIndex].itemQuantity += itemQuantity;
+            } else {
+                // If the item is not in the cart, add it
+                state.items.push(action.payload);
+            }
+
             saveCartItems(state.items);
         },
+
+        incrementQuantity: (state, action) => {
+            const { id } = action.payload;
+            const itemIndex = findItemIndex(state.items, id);
+
+            if (itemIndex !== -1) {
+                state.items[itemIndex].itemQuantity += 1;
+                saveCartItems(state.items);
+            }
+        },
+
+        decrementQuantity: (state, action) => {
+            const { id } = action.payload;
+            const itemIndex = findItemIndex(state.items, id);
+
+            if (itemIndex !== -1) {
+                state.items[itemIndex].itemQuantity -= 1;
+
+                // If quantity becomes 0, remove the item from the cart
+                if (state.items[itemIndex].itemQuantity === 0) {
+                    state.items.splice(itemIndex, 1);
+                }
+
+                saveCartItems(state.items);
+            }
+        },
         removeItem: (state, action) => {
-            state.items = state.items.filter(item => item.id !== action.payload.id);
+            const { id } = action.payload;
+            const updatedItems = state.items.filter(item => item.id !== id);
+            state.items = updatedItems;
             saveCartItems(state.items);
         },
         clearCart: (state) => {
@@ -32,5 +75,5 @@ const cartSlice = createSlice({
     },
 });
 
-export const { addItem, removeItem, clearCart } = cartSlice.actions;
+export const { addItem, removeItem, clearCart, incrementQuantity, decrementQuantity } = cartSlice.actions;
 export default cartSlice.reducer;

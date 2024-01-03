@@ -1,0 +1,136 @@
+.heroSection {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+}
+
+.carouselContainer {
+    width: 100%;
+    margin: auto;
+    margin-top: 15px;
+    height: 505px;
+    display: flex;
+    gap: 10px;
+    padding: 0;
+}
+
+.active {
+    border: none;
+}
+
+.carouselContainer .carouselBox {
+    height: 100%;
+    width: 67%;
+    background-color: aqua;
+    border-radius: 10px;
+}
+
+.carouselContainer .carouselBox img {
+    border-radius: 10px;
+}
+
+.carousel-item {
+    width: 100% !important;
+}
+
+.carouselCardBox {
+    width: 33%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.carouselCardBox .smallCard {
+    width: 100%;
+    height: 50%;
+
+}
+
+.carouselCardBox .smallCard .abcd {
+    width: 100%;
+}
+
+
+.carouselCardBox .smallCard .card:nth-child(2) {
+    width: 100%;
+}
+
+.carouselCardBox .smallCard img {
+    height: 98%;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.carouselContainer .carouselBox .carouselExampleCaptions {
+    width: 100%;
+    height: 100%;
+}
+
+/* .carouselContainer .adc {
+    height: 100%;
+    background-color: aqua;
+} */
+
+.popularCategoryBox {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    height: 200px;
+
+}
+
+.popularCategoryBox .cards {
+    position: relative;
+}
+
+.popularCategoryBox div {
+    cursor: pointer;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .carouselContainer {
+        height: 305px;
+    }
+
+    .popularCategoryBox {
+
+        height: 150px;
+    }
+
+    .cart-text-box h4 {
+        font-size: 12px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+
+    .heroSection {
+        justify-content: space-between;
+    }
+
+    .carouselContainer {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .carouselContainer .carouselBox {
+        height: 100% !important;
+        width: 100%;
+    }
+
+    .carouselContainer .carouselBox img {
+        height: 100%;
+    }
+
+    .carouselCardBox {
+        width: 100%;
+    }
+
+    .popularCategoryBox {
+        flex-direction: column;
+        height: auto;
+    }
+}

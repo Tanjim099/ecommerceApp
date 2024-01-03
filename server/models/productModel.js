@@ -17,12 +17,12 @@ const productSchema = new mongoose.Schema({
         required: true
     },
     category: {
-        type: mongoose.ObjectId,
+        type: mongoose.Types.ObjectId,
         ref: "Category",
         required: true
     },
     quantity: {
-        type: Number,
+        type: String,
         required: true
     },
     image: {

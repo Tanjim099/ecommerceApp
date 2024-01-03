@@ -3,13 +3,16 @@ import mongoose from "mongoose";
 const orderSchema = new mongoose.Schema({
     products: [
         {
-            type: mongoose.ObjectId,
-            ref: "Products"
-        },
+            id: { type: mongoose.Types.ObjectId, ref: 'Product' },
+            name: String,
+            price: Number,
+            image: String,
+            itemQuantity: Number,
+        }
     ],
     payment: {},
     buyer: {
-        type: mongoose.ObjectId,
+        type: mongoose.Types.ObjectId,
         ref: "users"
     },
     status: {

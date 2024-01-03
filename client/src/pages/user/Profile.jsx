@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { updateProfile } from "../../redux/slices/authSlice";
 
+
 function Profile() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -46,76 +47,78 @@ function Profile() {
     };
 
     return (
-        <Layout title={"User - Profile Page"}>
-            <div className="container-fluid">
-                <div className="row">
-                    <div className="col-md-3">
+        <Layout title={"User - Profile Page"} className="min-h-auto" style={{ minHeight: "5vh" }}>
+            <div className="container-fluid col-12 col-lg-8 my-4 min-h-auto m-auto">
+                <div className="row gap-2 gap-md-0 gap-lg-0">
+                    <div className="col-md-3 col-lg-3">
                         <UserMenu />
                     </div>
-                    <div className="col-md-9">
-                        <div className="form-container ">
-                            <form onSubmit={handleSubmit} >
-                                <h4 className="title">USER PROFILE</h4>
-                                <div className="mb-3">
-                                    <input
-                                        type="text"
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                        className="form-control"
-                                        name="name"
-                                        id="name"
-                                        aria-describedby="emailHelp"
-                                        placeholder="Enter Your Name"
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <input
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        type="email"
-                                        className="form-control"
-                                        id="email"
-                                        aria-describedby="emailHelp"
-                                        placeholder="Enter Your Email"
-                                        disabled
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <input
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        type="password"
-                                        name="password"
-                                        className="form-control"
-                                        id="password"
-                                        placeholder="Enter Your Password"
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <input
-                                        value={phone}
-                                        onChange={(e) => setPhone(e.target.value)}
-                                        type="text"
-                                        name="phone"
-                                        className="form-control"
-                                        id="phone"
-                                        placeholder="Enter Your Phone"
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <input
-                                        value={address}
-                                        onChange={(e) => setAddress(e.target.value)}
-                                        type="text"
-                                        name="address"
-                                        className="form-control"
-                                        placeholder="Enter Your Address"
-                                        id="address"
-                                    />
-                                </div>
-                                <button type="submit" className="btn btn-primary">UPDATE PROFILE</button>
-                            </form>
+                    <div className="col-md-9 col-lg-9 mx-">
+                        <div className="bg-white shadow">
+                            <div className=" col-12 col-md-8 col-lg-6 p-3">
+                                <form onSubmit={handleSubmit} >
+                                    <h4 className="title fs-5">Personal Information</h4>
+                                    <div className="mb-3">
+                                        <input
+                                            type="text"
+                                            value={name}
+                                            onChange={(e) => setName(e.target.value)}
+                                            className="form-control rounded-0 py-2"
+                                            name="name"
+                                            id="name"
+                                            aria-describedby="emailHelp"
+                                            placeholder="Enter Your Name"
+                                        />
+                                    </div>
+                                    <div className="mb-3">
+                                        <input
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            type="email"
+                                            className="form-control rounded-0 py-2"
+                                            id="email"
+                                            aria-describedby="emailHelp"
+                                            placeholder="Enter Your Email"
+                                            disabled
+                                        />
+                                    </div>
+                                    <div className="mb-3">
+                                        <input
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            type="password"
+                                            name="password"
+                                            className="form-control rounded-0 py-2"
+                                            id="password"
+                                            placeholder="Enter Your Password"
+                                        />
+                                    </div>
+                                    <div className="mb-3">
+                                        <input
+                                            value={phone}
+                                            onChange={(e) => setPhone(e.target.value)}
+                                            type="text"
+                                            name="phone"
+                                            className="form-control rounded-0 py-2"
+                                            id="phone"
+                                            placeholder="Enter Your Phone"
+                                        />
+                                    </div>
+                                    <div className="mb-3">
+                                        <input
+                                            value={address}
+                                            onChange={(e) => setAddress(e.target.value)}
+                                            type="text"
+                                            name="address"
+                                            className="form-control rounded-0 py-2"
+                                            placeholder="Enter Your Address"
+                                            id="address"
+                                        />
+                                    </div>
+                                    <button type="submit" className="btn btn-primary w-100 w-lg-auto rounded-0 py-2">UPDATE PROFILE</button>
+                                </form>
 
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -5,6 +5,8 @@ import productSlice from "./slices/productSlice";
 import searchSlice from "./slices/searchSlice";
 import cartSlice from "./slices/cartSlice";
 import orderSlice from "./slices/orderSlice";
+import statSlice from "./slices/statSlice";
+import paymentSlice from "./slices/paymentSlice";
 
 const store = configureStore({
     reducer: {
@@ -13,7 +15,9 @@ const store = configureStore({
         product: productSlice,
         search: searchSlice,
         cart: cartSlice,
-        order: orderSlice
+        order: orderSlice,
+        payment: paymentSlice,
+        stat: statSlice
     },
     devTools: true
 });

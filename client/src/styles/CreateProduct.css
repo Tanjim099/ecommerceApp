@@ -1,0 +1,30 @@
+.createProducContainer {
+    display: flex;
+    height: 100vh;
+}
+
+.createProducContainer-sidebar {
+    width: 15%;
+}
+
+.createProductContainer_content {
+    width: 85%;
+}
+
+@media screen and (max-width: 768px) {
+    .createProducContainer {
+        flex-direction: column;
+    }
+
+    .createProducContainer-sidebar {
+        width: 100%;
+    }
+
+    .createProductContainer_content {
+        width: 100%;
+    }
+}
+
+/* Extra Small <= 576px */
+
+@media screen and (max-width: 576px) {}

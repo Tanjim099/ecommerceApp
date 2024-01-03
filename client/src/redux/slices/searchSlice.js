@@ -9,6 +9,9 @@ const initialState = {
 export const searchProduct = createAsyncThunk("search/product", async (query) => {
     try {
         const response = await axiosInstance.get(`/product/search/?q=${query}`)
+        // const response = await axiosInstance.get("/product/search", {
+        //     params: { query }
+        // })
         console.log(response)
         return response.data
     } catch (error) {

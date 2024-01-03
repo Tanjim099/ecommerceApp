@@ -1,0 +1,323 @@
+/* .productCard {
+    width: 250px;
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.0), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.productCard img {
+    height: 200px;
+    display: flex;
+}
+
+.priceBox {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btnBox {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btnBox button {
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+}
+
+.btnBox button:nth-child(1) {
+    background-color: #007aff;
+    color: white;
+}
+
+.btnBox button:nth-child(2) {
+    background: transparent;
+    border: 2px solid #007aff;
+    color: #007aff;
+} */
+
+
+body {
+    background-color: #f3f3f3;
+}
+
+.card_container {
+    background-color: #fff !important;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    max-width: 260px;
+    width: 100%;
+    height: 330px;
+    position: relative;
+    border-radius: 15px;
+    padding: 0.5rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    font-family: 'Nunito', sans-serif;
+}
+
+.card_header {
+    margin: auto;
+    display: flex;
+}
+
+.card_image {
+    max-height: 230px;
+    max-width: 100%;
+    margin: auto;
+    border-radius: 15px;
+}
+
+.favourite>.wishlist {
+    color: red;
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    cursor: pointer;
+}
+
+.card_body_name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2e2d2d;
+    font-family: 'Nunito', sans-serif;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.card_footer p {
+    font-size: 14px;
+    font-family: 'Nunito', sans-serif;
+}
+
+.price {
+    font-weight: bold;
+    font-family: 'Nunito', sans-serif;
+}
+
+.review-icon {
+    color: #fdc800;
+    -webkit-text-stroke-width: 0px;
+    -webkit-text-stroke-color: #e8e8e8;
+}
+
+.review-icon-empty {
+    color: #b7b7b7;
+}
+
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay .add-to-cart-btn {
+    width: 100%;
+    border-radius: 0px 0px 15px 15px;
+    border: none;
+    outline: none;
+    background-color: #2874f0;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 7px;
+}
+
+.card_container:hover .overlay {
+    display: flex;
+}
+
+.add-to-cart-btn_Box {
+    display: none;
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+    /* .cardContainer {
+        flex-wrap: wrap;
+    }
+
+    .card_container {
+        flex-basis: 30%;
+    } */
+
+    .productCard img {
+        height: 100px;
+    }
+
+    .pandbBox {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .priceBox {
+        width: 100%;
+    }
+
+    .btnsBox {
+        width: 100%;
+    }
+}
+
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .cardContainer {
+        flex-wrap: wrap;
+    }
+
+    .card_container {
+        flex-basis: 30%;
+    }
+
+    .card_container {
+        height: 260px;
+        position: relative;
+        border-radius: 15px;
+        padding: 0.5rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        overflow: hidden;
+        font-family: 'Nunito', sans-serif;
+    }
+
+    .card_image {
+        height: 130px;
+        width: 100%;
+        border-radius: 15px;
+    }
+
+    .card_body_name {
+        font-size: 14px;
+        margin-top: 7px;
+        margin-bottom: 3px;
+    }
+
+    .card_body .priceBox {
+        font-size: 13px;
+    }
+
+    .card_footer p {
+        font-size: 13px;
+    }
+
+    .add-to-cart-btn_Box {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+
+    .add-to-cart-btn_Box {
+        display: block;
+    }
+
+    .add-to-cart-btn_Box .add-to-cart-btn {
+        width: 100%;
+        border-radius: 0px 0px 15px 15px;
+        border: none;
+        outline: none;
+        background-color: #2874f0;
+        color: white;
+        font-size: 14px;
+        padding: 5px;
+        bottom: 0;
+    }
+
+    .overlay {
+        display: none;
+    }
+
+    .card_container:hover .overlay {
+        display: none;
+    }
+
+
+}
+
+
+@media screen and (max-width: 767px) {
+    .cardContainer {
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .card_container {
+        flex-basis: 49%;
+    }
+
+    .card_container {
+        height: 260px;
+        position: relative;
+        border-radius: 15px;
+        padding: 0.5rem;
+        margin-left: 0px;
+        margin-right: 0px;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        overflow: hidden;
+        font-family: 'Nunito', sans-serif;
+    }
+
+    .card_image {
+        height: 130px;
+        width: 100%;
+        border-radius: 15px;
+    }
+
+    .card_body_name {
+        font-size: 14px;
+        margin-top: 7px;
+        margin-bottom: 3px;
+    }
+
+    .card_body .priceBox {
+        font-size: 13px;
+    }
+
+    .card_footer p {
+        font-size: 13px;
+    }
+
+    .add-to-cart-btn_Box {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+
+    .add-to-cart-btn_Box {
+        display: block;
+    }
+
+    .add-to-cart-btn_Box .add-to-cart-btn {
+        width: 100%;
+        border-radius: 0px 0px 15px 15px;
+        border: none;
+        outline: none;
+        background-color: #2874f0;
+        color: white;
+        font-size: 14px;
+        padding: 5px;
+        bottom: 0;
+    }
+
+    .overlay {
+        display: none;
+    }
+
+    .card_container:hover .overlay {
+        display: none;
+    }
+}

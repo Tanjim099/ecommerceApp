@@ -25,6 +25,7 @@ import Categories from './pages/Categories'
 import CategoryProduct from './pages/CategoryProduct'
 import CartPage from './pages/CartPage'
 import AdminOrders from './pages/admin/AdminOrders'
+import AdminUsers from './pages/admin/AdminUsers'
 
 function App() {
 
@@ -33,7 +34,7 @@ function App() {
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/product/:slug' element={<ProductDetails />} />
-        <Route path='/categories' element={<Categories />} />
+        <Route path='/category' element={<Categories />} />
         <Route path='/category/:slug' element={<CategoryProduct />} />
         <Route path='/cart' element={<CartPage />} />
         <Route path='/register' element={<Register />} />
@@ -57,8 +58,8 @@ function App() {
           <Route path='/dashboard/admin/create-category' element={<CreateCategory />} />
           <Route path='/dashboard/admin/create-product' element={<CreateProduct />} />
           <Route path='/dashboard/admin/all-products' element={<AdminProducts />} />
-          <Route path='/dashboard/admin/product/:slug' element={<UpdateProduct />} />
-          <Route path='/dashboard/admin/users' element={<Users />} />
+          <Route path='/dashboard/admin/product/:pid' element={<UpdateProduct />} />
+          <Route path='/dashboard/admin/users' element={<AdminUsers />} />
           <Route path='/dashboard/admin/orders' element={<AdminOrders />} />
         </Route>
       </Routes>

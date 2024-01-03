@@ -9,9 +9,8 @@ const initialState = {
 //GET ALL CATEGORY
 export const getCategories = createAsyncThunk("category/get", async () => {
     try {
-        const response = await axiosInstance.get("/category/get-category");
-
-        return response.data
+        const response = axiosInstance.get("/category/get-category");
+        return (await response).data
     } catch (error) {
         toast.error(error?.response?.data?.message)
     }

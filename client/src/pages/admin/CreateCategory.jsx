@@ -6,11 +6,13 @@ import { createCategory, deleteCategory, getCategories, updateCategory } from ".
 import CategoryForm from "../../components/Form/CategoryForm";
 import toast from "react-hot-toast";
 import { Modal } from "antd"
+import AdminLayout from "../../components/Layout/AdminLayout";
 
 function CreateCategory() {
     const dispatch = useDispatch();
 
     const [name, setName] = useState("");
+    const [icon, setIcon] = useState("");
     const [visible, setVisible] = useState(false);
     const [selected, setSelected] = useState(null);
     const [updatedName, setUpdatedName] = useState("")
@@ -18,15 +20,17 @@ function CreateCategory() {
     console.log(name)
     async function onFormSubmit(e) {
         e.preventDefault()
-        const data = {
-            name: name
-        }
+
+        const data = new FormData();
+        data.append("name", name);
+        data.append("icon", icon);
         const response = await dispatch(createCategory(data));
         console.log(response)
         if (response?.payload?.success) {
             toast.success("Category Created Successfully")
             onGetData()
             setName("")
+            setIcon("")
         }
         else {
             toast.error("Something went wrong")
@@ -55,7 +59,7 @@ function CreateCategory() {
             setVisible(false)
         }
     }
-    const categories = useSelector((state) => state?.category?.categoryData?.category);
+    const categories = useSelector((state) => state?.category?.categoryData);
     console.log(categories)
     async function onGetData() {
         const response = await dispatch(getCategories())
@@ -65,12 +69,10 @@ function CreateCategory() {
         onGetData()
     }, [])
     return (
-        <Layout title={"Dashboard - Create Category"}>
+        <AdminLayout>
             <div className="container-fluid p-3">
                 <div className="row">
-                    <div className="col-md-3">
-                        <AdminMenu />
-                    </div>
+
                     <div className="col-md-9">
                         <h1>Manage Category</h1>
                         <div className="p-3 w-50">
@@ -78,6 +80,8 @@ function CreateCategory() {
                                 onFormSubmit={onFormSubmit}
                                 value={name}
                                 setValue={setName}
+                                icon={icon}
+                                setIcon={setIcon}
                             />
                         </div>
                         <div className="w-75">
@@ -125,7 +129,7 @@ function CreateCategory() {
                     </div>
                 </div>
             </div>
-        </Layout>
+        </AdminLayout>
     )
 }
 

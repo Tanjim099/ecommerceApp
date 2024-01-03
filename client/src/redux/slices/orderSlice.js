@@ -26,6 +26,15 @@ export const getAllOrders = createAsyncThunk("order/get-all", async () => {
     }
 })
 
+export const orderStatus = createAsyncThunk("order/order-status", async (data) => {
+    try {
+        const response = axiosInstance.put(`/order//order-status/${data[0]}`, { status: data[1] })
+        return (await response).data
+    } catch (error) {
+        toast.error(error?.response?.data?.message)
+    }
+})
+
 const orderSlice = createSlice({
     name: "order",
     initialState,

@@ -1,6 +1,6 @@
 import express from "express";
 import { isAdmin, requredSignIn, validateBody } from "../middlewares/authMiddleware.js";
-import { braintreePayment, braintreeToken, createProduct, deleteProduct, filterProduct, getAllProducts, getProduct, productCategory, productCount, productImage, productList, relatedProducts, searchProduct, updateProduct } from "../controllers/productController.js";
+import { createProduct, deleteProduct, filterProduct, getAllProducts, getProduct, productCategory, productCount, productImage, productList, relatedProducts, searchProduct, updateProduct } from "../controllers/productController.js";
 import formidable from "express-formidable"
 import upload from "../middlewares/multerMiddleware.js";
 // import { createProducts } from "../controllers/filterProduct.js";
@@ -28,7 +28,7 @@ productRouter.delete("/delete-product/:pid", deleteProduct);
 productRouter.put("/update-product/:pid", requredSignIn, isAdmin, formidable(), updateProduct);
 
 //FILTER PRODUCT
-productRouter.post("/filters-product", filterProduct);
+productRouter.get("/filters-product", filterProduct);
 
 //PRODUCT COUNT
 productRouter.get("/product-count", productCount);
@@ -45,10 +45,10 @@ productRouter.get("/related-product/:pid/:cid", relatedProducts);
 //CATEGORY WISE PRODUCT
 productRouter.get("/product-category/:slug", productCategory);
 
-//PAYMENTS ROUTES
-//TOKEN
-productRouter.get("/braintree/token", braintreeToken)
+// //PAYMENTS ROUTES
+// //TOKEN
+// productRouter.get("/braintree/token", braintreeToken)
 
-//PAYMENTS
-productRouter.post("/braintree/payment", requredSignIn, braintreePayment)
+// //PAYMENTS
+// productRouter.post("/braintree/payment", requredSignIn, braintreePayment)
 export default productRouter
