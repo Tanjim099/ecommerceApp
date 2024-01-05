@@ -1,5 +1,4 @@
 import Layout from "../../components/Layout/Layout";
-import AdminMenu from "../../components/Layout/AdminMenu";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteProduct, getAllProducts } from "../../redux/slices/productSlice";
@@ -17,12 +16,10 @@ function AdminProducts() {
     const { productList } = useSelector((state) => state?.product)
     async function onLoadGetAllProducts() {
         const response = await dispatch(getAllProducts());
-        console.log(response)
     }
 
     async function onDeleteProduct(pId) {
         const response = await dispatch(deleteProduct(pId));
-        console.log(response);
         if (response?.payload?.success) {
             toast.success("Product Deleted Successfully")
             await dispatch(getAllProducts());
@@ -52,8 +49,8 @@ function AdminProducts() {
                             <tbody>
                                 {productList?.map((p, i) => (
 
-                                    <tr>
-                                        <td key={i} scope="row">{i + 1}</td>
+                                    <tr key={i}>
+                                        <td scope="row">{i + 1}</td>
                                         <td>{p.name}</td>
                                         <td>{p.price}</td>
                                         <td>{p.quantity}</td>

@@ -14,7 +14,6 @@ import ForgotPassword from './pages/auth/ForgotPassword'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import CreateCategory from './pages/admin/CreateCategory'
 import CreateProduct from './pages/admin/CreateProduct'
-import Users from './pages/admin/Users'
 import Profile from './pages/user/Profile'
 import Orders from './pages/user/Orders'
 import AdminProducts from './pages/admin/AdminProducts'
@@ -26,6 +25,7 @@ import CategoryProduct from './pages/CategoryProduct'
 import CartPage from './pages/CartPage'
 import AdminOrders from './pages/admin/AdminOrders'
 import AdminUsers from './pages/admin/AdminUsers'
+import MobileHiddenPage from './pages/MobileHiddenPage'
 
 function App() {
 

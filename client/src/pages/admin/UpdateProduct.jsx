@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import AdminMenu from "../../components/Layout/AdminMenu"
 import Layout from "../../components/Layout/Layout"
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -16,7 +15,7 @@ function UpdateProduct() {
 
     const { state } = useLocation();
     const [categories, setCategories] = useState([]);
-    const [name, setName] = useState(state.name);
+    const [name, setName] = useState(state?.name);
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
     const [category, setCategory] = useState("");
@@ -47,13 +46,13 @@ function UpdateProduct() {
     };
 
     function setInitialData() {
-        setName(state.name);
-        setId(state._id);
-        setDescription(state.description);
-        setPrice(state.price);
-        setCategory(state.category._id);
-        setQuantity(state.quantity);
-        setShipping(state.shipping)
+        setName(state?.name);
+        setId(state?._id);
+        setDescription(state?.description);
+        setPrice(state?.price);
+        setCategory(state?.category?._id);
+        setQuantity(state?.quantity);
+        setShipping(state?.shipping)
     }
 
     async function onUpdateProduct(e) {
@@ -89,12 +88,9 @@ function UpdateProduct() {
         setInitialData()
     }, [])
     return (
-        <AdminLayout title={"Create Product Page"}>
-            <div className="container-fluid p-3">
-                {/* <div className="row">
-
-                    <div className="col-md-9"> */}
-                <h1>Update Product</h1>
+        <AdminLayout title={"Create Product Page"} >
+            <div className="container-fluid p-3" style={{ marginTop: "60px", minHeight: "94vh" }}>
+                <h1 className="fs-5">Update Product</h1>
                 <div className="m-lg-3 m-0" >
                     <Select
                         bordered={false}
@@ -109,7 +105,7 @@ function UpdateProduct() {
                     >
                         {categories?.map((c) => {
                             return <Option key={c._id} value={c._id}>
-                                {c.name}
+                                {c?.name}
                             </Option>
                         })}
                     </Select>
@@ -136,15 +132,15 @@ function UpdateProduct() {
                                 <img src={URL.createObjectURL(image)}
                                     alt="product image"
                                     height={"200px"}
-                                    className="img img-responsive"
+                                    className="img img-responsive "
                                 />
                             </div>
                         ) : (
                             <div className="text-center">
-                                <img src={state.image.secure_url}
+                                <img src={state?.image?.secure_url}
                                     alt="product image"
                                     height={"200px"}
-                                    className="img img-responsive"
+                                    className="img img-responsive  w-75"
                                 />
                             </div>
                         )}
@@ -212,17 +208,8 @@ function UpdateProduct() {
                             UPDATE PRODUCT
                         </button>
                     </div>
-                    {/* <div className="mb-3">
-                                <button
-                                    onClick={onDeleteProduct}
-                                    className="btn btn-danger">
-                                    DELETE PRODUCT
-                                </button>
-                            </div> */}
                 </div>
             </div>
-            {/* </div>
-            </div> */}
         </AdminLayout>
     )
 }

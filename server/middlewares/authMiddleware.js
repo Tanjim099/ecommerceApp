@@ -4,20 +4,10 @@ import AppError from "../utils/appError.js";
 
 //Protected Routes token base
 export const requredSignIn = async (req, res, next) => {
-    // console.log(req.cookies)
     const { token } = req.cookies;
-    // console.log("token", token)
     if (!token) {
         return next(new AppError("Unauthenticated, please login", 400))
     }
-    // try {
-    //     const decode = JWT.verify(req.cookies.token, process.env.JWT_SECRET);
-    //     console.log(decode)
-    //     req.user = decode
-    //     next();
-    // } catch (error) {
-    //     console.log("jwts", error)
-    // }
 
     const tokenDetails = JWT.verify(token, process.env.JWT_SECRET);
     if (!tokenDetails) {
@@ -25,8 +15,6 @@ export const requredSignIn = async (req, res, next) => {
     }
 
     req.user = tokenDetails;
-    // console.log(tokenDetails)
-
     next();
 }
 

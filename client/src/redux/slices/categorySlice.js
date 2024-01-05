@@ -20,7 +20,6 @@ export const getCategories = createAsyncThunk("category/get", async () => {
 export const createCategory = createAsyncThunk("category/create", async (name) => {
     try {
         const response = axiosInstance.post("category/create-category", name);
-        console.log(response)
         toast.promise(response, {
             loading: "Wait Creating Category",
             success: (data) => {

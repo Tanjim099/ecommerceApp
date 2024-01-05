@@ -12,7 +12,6 @@ const findItemIndex = (items, itemId) => {
     return items.findIndex(item => item.id === itemId);
 };
 
-console.log(findItemIndex)
 const initialState = {
     items: loadCartItems(),
 };
@@ -23,7 +22,6 @@ const cartSlice = createSlice({
     reducers: {
         addItem: (state, action) => {
             const { id, itemQuantity } = action.payload;
-            console.log(id, itemQuantity)
             const existingItemIndex = findItemIndex(state.items, id);
 
             if (existingItemIndex !== -1) {

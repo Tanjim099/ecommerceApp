@@ -8,15 +8,12 @@ import { MdDelete } from "react-icons/md";
 function AdminUsers() {
     const dispatch = useDispatch();
     const { usersData } = useSelector((state) => state?.stat);
-    console.log(usersData);
     async function fetchUsersData() {
         const response = await dispatch(getStatUsers());
-        console.log(response)
     }
 
 
     async function onDeleteUSer(uId) {
-        console.log("clicked")
         const response = await dispatch(deleteUser(uId));
         if (response.payload.success) {
             await dispatch(getStatUsers());
@@ -29,7 +26,7 @@ function AdminUsers() {
     return (
         <AdminLayout>
             <div className="mt-20" style={{ marginTop: "60px" }}>
-                <div className="d-flex">
+                <div className="d-flex overflow-auto">
                     <table className="table">
                         <thead>
                             <tr>

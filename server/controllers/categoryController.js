@@ -46,7 +46,6 @@ export const createCategory = async (req, res) => {
             category
         })
     } catch (error) {
-        console.log(error);
         res.status(501).send({
             success: false,
             message: "Something went wrong",
@@ -68,7 +67,6 @@ export const updateCategory = async (req, res) => {
             category
         });
     } catch (error) {
-        console.log(error);
         res.status(501).send({
             success: false,
             message: "Error while updating category",
@@ -87,7 +85,6 @@ export const getCategory = async (req, res) => {
             category
         })
     } catch (error) {
-        // console.log(error);
         res.status(501).send({
             success: false,
             message: "Error while getting category",
@@ -108,7 +105,6 @@ export const singleCategory = async (req, res) => {
             category
         })
     } catch (error) {
-        console.log(error);
         res.status(501).send({
             success: false,
             message: "Error while getting single category",
@@ -127,7 +123,6 @@ export const deleteCategory = async (req, res) => {
             message: "Category Deleted Successfully"
         })
     } catch (error) {
-        console.log(error);
         res.status(501).send({
             success: false,
             message: "Error while deleting category",

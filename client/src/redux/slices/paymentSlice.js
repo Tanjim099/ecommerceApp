@@ -39,8 +39,6 @@ export const payment = createAsyncThunk("/payment/payment", async (payload, thun
 //getOrdersByMonth
 export const getOrdersByMonth = createAsyncThunk("/payment/get-orders/bymonth", async (data) => {
     try {
-        // console.log("year", year);
-        // console.log("month", months);
         const response = axiosInstance.get(`/payment/orders/${data[0]}/${data[1]}`);
         return (await response).data
     } catch (error) {
@@ -54,7 +52,6 @@ const paymentSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(getOrdersByMonth.fulfilled, (state, action) => {
-            console.log(action);
             state.ordersByMonthly = action?.payload?.orders;
         })
     }

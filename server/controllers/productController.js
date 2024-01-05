@@ -9,19 +9,11 @@ import orderModel from "../models/orderModel.js";
 import dotenv from "dotenv"
 
 dotenv.config();
-//PAYMENT GETEWAY
-var gateway = new braintree.BraintreeGateway({
-    environment: braintree.Environment.Sandbox,
-    merchantId: process.env.BRAINTREE_MEARCHANT_ID,
-    publicKey: process.env.BRAINTREE_PUBLIC_KEY,
-    privateKey: process.env.BRAINTREE_PRIVATE_KEY,
-});
 
 
 //CREATE PRODUCT
 export const createProduct = async (req, res) => {
     const { name, description, price, category, quantity, shipping } = req.body;
-    // console.log(req.body)
     if (!name || !description || !price || !category || !quantity) {
         res.status(500).send({
             message: "All Fields are required"
@@ -41,13 +33,11 @@ export const createProduct = async (req, res) => {
         }
     })
 
-    // console.log(req.file)
 
     if (req.file) {
         const result = await cloudinary.v2.uploader.upload(req.file.path, {
             folder: 'ecommerceApp',
         });
-        // console.log(result.secure_url)
 
         if (result) {
             product.image.public_id = result.public_id;
@@ -74,7 +64,6 @@ export const getAllProducts = async (req, res) => {
             products
         })
     } catch (error) {
-        console.log(error);
         res.status(501).send({
             success: false,
             message: "Error while getting all products",
@@ -93,7 +82,6 @@ export const getProduct = async (req, res) => {
             product
         })
     } catch (error) {
-        console.log(error);
         res.status(501).send({
             success: false,
             message: "Error while getting product",
@@ -113,7 +101,6 @@ export const productImage = async (req, res) => {
             return res.status(200).send(product.image.data)
         }
     } catch (error) {
-        console.log(error);
         res.status(501).send({
             success: false,
             message: "Error while getting product image",
@@ -132,7 +119,6 @@ export const deleteProduct = async (req, res) => {
             message: "Product Deleted successfully"
         })
     } catch (error) {
-        console.log(error);
         res.status(501).send({
             success: false,
             message: "Error while deleting product image",
@@ -187,7 +173,6 @@ export const updateProduct = async (req, res) => {
             products
         })
     } catch (error) {
-        console.log(error);
         res.status(501).send({
             success: false,
             message: "Error while Updating product",
@@ -196,41 +181,11 @@ export const updateProduct = async (req, res) => {
     }
 }
 
-//================================
-
-// export const filterProduct = async (req, res) => {
-//     // console.log("req.query", req.query);
-//     try {
-//         const { checked, radio } = req.body;
-//         console.log("checked, radio", checked, radio)
-//         let args = {};
-//         if (checked.length > 0) args.category = checked;
-//         // if (radio.length) args.price = { $gte: radio[0], $lte: radio[1] };
-//         console.log(args)
-//         const products = await productModel.find(args);
-//         console.log(products)
-//         res.status(200).send({
-//             success: true,
-//             products,
-//         });
-//     } catch (error) {
-//         console.log(error);
-//         res.status(400).send({
-//             success: false,
-//             message: "Error WHile Filtering Products",
-//             error,
-//         });
-//     }
-// };
-
-//================================
-
 
 //================== Working start ======================== //
 export const filterProduct = async (req, res) => {
     try {
         const { categoryIds } = req.query;
-        console.log(categoryIds)
         const categoryIdArray = categoryIds.split(',').map(id => id.trim());
         const products = await productModel.find({ category: { $in: categoryIdArray } });
         res.status(200).send({
@@ -239,7 +194,6 @@ export const filterProduct = async (req, res) => {
             products
         })
     } catch (error) {
-        console.log(error);
         res.status(400).send({
             success: false,
             message: "Error WHile Filtering Products",
@@ -250,35 +204,7 @@ export const filterProduct = async (req, res) => {
 //=============== Working Filter API end ===============//
 
 
-// export const filterProduct = async (req, res) => {
-//     try {
-//         const { categoryIds, minPrice, maxPrice } = req.query;
-//         console.log(categoryIds)
-//         const categoryIdArray = categoryIds.split(',').map(id => id.trim());
 
-//         let filter = {}
-//         if (categoryIdArray.length > 0) {
-//             filter.categoryId = { in: categoryIdArray }
-//         }
-
-//         if (minPrice && maxPrice) {
-//             filter.price = { $gte: parseFloat(minPrice), $lte: parseFloat(maxPrice) }
-//         }
-//         const products = await productModel.find(filter);
-//         res.status(200).send({
-//             success: true,
-//             message: "Filtered Successfully",
-//             products
-//         })
-//     } catch (error) {
-//         console.log(error);
-//         res.status(400).send({
-//             success: false,
-//             message: "Error WHile Filtering Products",
-//             error,
-//         });
-//     }
-// };
 //PRODUCT COUNT
 export const productCount = async (req, res) => {
     try {
@@ -288,7 +214,6 @@ export const productCount = async (req, res) => {
             total
         })
     } catch (error) {
-        console.log(error);
         res.status(501).send({
             success: false,
             message: "Error while Counting product",
@@ -308,7 +233,6 @@ export const productList = async (req, res) => {
             products
         })
     } catch (error) {
-        console.log(error);
         res.status(501).send({
             success: false,
             message: "Error in per page controller",
@@ -321,7 +245,6 @@ export const productList = async (req, res) => {
 //SEARCH PRODUCT
 export const searchProduct = async (req, res) => {
     const query = req.query.q;
-    console.log(query);
     if (!query) {
         return res.status(400).json({ error: 'Please provide a search query.' });
     }
@@ -350,7 +273,6 @@ export const relatedProducts = async (req, res) => {
             products
         })
     } catch (error) {
-        console.log(error);
         res.status(501).send({
             success: false,
             message: "Error in getting related Products",
@@ -371,7 +293,6 @@ export const productCategory = async (req, res) => {
             products
         })
     } catch (error) {
-        // console.log(error);
         res.status(501).send({
             success: false,
             message: "Error in getting related Products",
@@ -380,73 +301,9 @@ export const productCategory = async (req, res) => {
     }
 }
 
-//PAYMENT GETEWAY
-// export const braintreeToken = async (req, res) => {
-//     try {
-//         gateway.clientToken.generate({}, function (err, response) {
-//             if (err) {
-//                 res.status(500).send(err)
-//             }
-//             else {
-//                 res.status(200).send(response)
-//             }
-//         })
-//     } catch (error) {
-//         res.status(500).send({
-//             success: false,
-//             message: "Error While setting token",
-//             error
-//         })
-//         // console.log(error)
-//     }
-// }
-
-
-//PAYMENTS
-// export const braintreePayment = async (req, res) => {
-//     try {
-//         const { nonce, items } = req.body;
-//         console.log("nonce", nonce)
-//         // console.log("items", items)
-//         let total = 0;
-//         items.map((i) => {
-//             total += i.price;
-//         });
-//         let newTransaction = gateway.transaction.sale(
-//             {
-//                 amount: total,
-//                 paymentMethodNonce: nonce,
-//                 options: {
-//                     submitForSettlement: true,
-//                 },
-//             },
-//             function (error, result) {
-//                 if (result) {
-//                     const order = new orderModel({
-//                         products: items,
-//                         payment: result,
-//                         buyer: req.user._id,
-//                     }).save();
-//                     res.json({ ok: true });
-//                 } else {
-//                     res.status(500).send(error);
-//                 }
-//             }
-//         );
-//     } catch (error) {
-//         // console.log(error);
-//         res.status(500).send({
-//             success: false,
-//             message: "Error While Payments",
-//             error
-//         })
-//     }
-// }
-
 //GET ORDERS
 export const getOrders = async (req, res) => {
     try {
-        console.log("YES")
         const orders = await orderModel.find({ buyer: req.user._id }).populate("products").populate("buyer", "name")
         console.log("orders", orders)
         if (!orders) {
@@ -455,7 +312,6 @@ export const getOrders = async (req, res) => {
         console.log("Orders", orders)
         res.json(orders)
     } catch (error) {
-        // console.log(error)
         res.status(500).send({
             success: false,
             message: "Error While getting Orders",
@@ -467,10 +323,9 @@ export const getOrders = async (req, res) => {
 //GET ALL ORDERS
 export const getAllOrders = async (req, res) => {
     try {
-        const orders = await orderModel.find().populate("products").populate("buyer", "name")
+        const orders = await orderModel.find().populate("products").populate("buyer")
         res.json(orders)
     } catch (error) {
-        // console.log(error)
         res.status(500).send({
             success: false,
             message: "Error While getting Orderss",
@@ -488,7 +343,6 @@ export const orderStatus = async (req, res) => {
         const orders = await orderModel.findByIdAndUpdate(orderId, { status }, { new: true });
         res.json(orders)
     } catch (error) {
-        // console.log(error)
         res.status(500).send({
             success: false,
             message: "Error While Updating Orders",

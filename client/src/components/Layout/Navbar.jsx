@@ -38,7 +38,6 @@ function Navbar() {
 
 
     const [searchQuery, setSearchQuery] = useState('');
-    // const products = useSelector((state) => state.products);
 
     const handleSearch = async (e) => {
         e.preventDefault();
@@ -64,9 +63,9 @@ function Navbar() {
                     <header>
                         <div className="header-content-top border-0">
                             <div className="content d-flex gap-5 text-white">
-                                <span><FaWhatsappSquare /> (00)0000-0000</span> |
-                                <span> <MdMarkEmailUnread />help@shoppingcart.com</span> |
-                                <span> <MdAppSettingsAlt />Download App</span>
+                                <NavLink to="https://wa.me/1122233334" className="text-white" ><FaWhatsappSquare /> (00)0000-0000</NavLink> |
+                                <NavLink to="mailto:tm.alam909@gmail.com" className="text-white"> <MdMarkEmailUnread />help@shopkart.com</NavLink> |
+                                <span> <MdAppSettingsAlt className="cursor-pointer" />Download App</span>
                             </div>
                         </div>
                         <div className="containers">
@@ -75,8 +74,7 @@ function Navbar() {
                                 <i className="fa fa-search" />
                                 <input className="input-open-search" id="open-search" type="checkbox" name="menu" />
                                 <div className="search">
-                                    {/* <button className="button-search"><i className="fa fa-search" /></button>
-                                    <input type="text" placeholder="What are you looking for?" className="input-search" /> */}
+
                                     <SearchInput />
                                 </div>
                             </label>
@@ -116,13 +114,11 @@ function Navbar() {
                                     </li>
                                     <li className="nav-content-item mb-0"><NavLink className="nav-content-link border-0"  ><AiFillHeart /></NavLink></li>
                                     <li className="nav-content-item mb-0 border-0">
-                                        {/* <NavLink to="/cart" className="nav-content-link border-0">< FaCartPlus />
-                                        </NavLink> */}
                                         <NavLink to="/cart" className="">
                                             <Badge count={items?.length || 0} showZero className="mr-2">
-                                                <NavLink className="nav-content-link border-0">
+                                                <span className="nav-content-link border-0">
                                                     < FaCartPlus />
-                                                </NavLink>
+                                                </span>
                                             </Badge>
                                         </NavLink>
                                     </li>
@@ -137,31 +133,15 @@ function Navbar() {
                                         <i className="fa fa-angle-up" />
                                     </NavLink>
                                     <ul className="all-category-list">
-                                        {/* <li className="all-category-list-item"><a href="https://www.cupcom.com.br/" className="all-category-list-link">Smartphones<i className="fas fa-angle-right" /></a>
-                                        <div className="category-second-list">
-                                            <ul className="category-second-list-ul">
-                                                <li className="category-second-item"><NavLink>Iphone 10</NavLink></li>
-                                                <li className="category-second-item"><NavLink>Galaxy Note 10</NavLink></li>
-                                                <li className="category-second-item"><NavLink>Motorola One </NavLink></li>
-                                                <li className="category-second-item"><NavLink>Galaxy A80 </NavLink></li>
-                                                <li className="category-second-item"><NavLink>Galaxy M </NavLink></li>
-                                                <li className="category-second-item"><NavLink>Huaway P30 </NavLink></li>
-                                            </ul>
-                                            <div className="img-product-menu"><img src="https://i.ibb.co/Vvndkmy/banner.jpg" /></div>
-                                        </div>
-                                    </li> */}
-                                        {categories?.map((c) => {
+
+                                        {categories?.map((c, i) => {
                                             return (
-                                                <>
-                                                    <li className="all-category-list-item"><NavLink to={`/category/${c.slug}`} className="all-category-list-link border-0">{c.name}</NavLink></li>
-                                                </>
+
+                                                <li key={i} className="all-category-list-item"><NavLink to={`/category/${c.slug}`} className="all-category-list-link border-0">{c.name}</NavLink></li>
+
                                             )
                                         })}
-                                        {/* <li className="all-category-list-item"><NavLink className="all-category-list-link border-0">Furniture</NavLink></li>
-                                        <li className="all-category-list-item"><NavLink className="all-category-list-link">Toys</NavLink></li>
-                                        <li className="all-category-list-item"><NavLink className="all-category-list-link">Computing</NavLink></li>
-                                        <li className="all-category-list-item"><NavLink className="all-category-list-link">Games</NavLink></li>
-                                        <li className="all-category-list-item"><NavLink className="all-category-list-link">Automotive</NavLink></li> */}
+
                                     </ul>
                                 </label>
                             </nav>
@@ -177,12 +157,7 @@ function Navbar() {
                             </nav>
                         </div>
                     </header >
-                    {/* <div style={{ display: 'block', margin: '0 auto', textAlign: 'center', marginTop: 50 }}>
-                    <div className="g-ytsubscribe" data-channelid="UCpXTlrDWlpN46PKieJ-FcPw" data-layout="full" data-count="hidden" />
-                </div>
-                <div style={{ margin: '50px 0', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-                    <a style={{ display: 'block', textAlign: 'center', color: '#555', textDecoration: 'none', marginRight: 15 }} href="https://www.cupcom.com.br/" target="_blank"><i className="fas fa-home" style={{ color: '#1da1f2', marginRight: 5 }} />More compoments: cupcom.com.br</a>
-                </div> */}
+
                 </div >
                 {/* ================= */}
                 {/* small navbar */}
@@ -193,13 +168,11 @@ function Navbar() {
                                 <div className="container-fluid h-100">
                                     <div className="d-flex gap-2 ">
                                         <button className="navbar-toggler border-0 text-white bg-transparent  focus-ring" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
-                                            {/* <span className="navbar-toggler-icon text-white " /> */}
                                             <FaBars />
                                         </button>
-                                        <NavLink to="/" className="navbar-brand">LOGO</NavLink>
+                                        <NavLink to="/" className="navbar-brand border-0">LOGO</NavLink>
                                     </div>
                                     <div>
-                                        {/* <div className="bg-white px-2 m-0"><a className="navbar-brand" href="#" style={{ color: "#007aff" }}>< FaCartPlus /></a><span>0</span></div> */}
                                         <Badge count={items?.length || 0} showZero className="mr-2">
                                             <NavLink to="/cart" className="navbar-brand p-0 m-2">
                                                 < FaCartPlus />
@@ -208,16 +181,14 @@ function Navbar() {
                                     </div>
                                     <div className="offcanvas offcanvas-end text-bg-dark" tabIndex={-1} id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
                                         <div className="offcanvas-header" style={{ backgroundColor: "rgb(0, 122, 255)" }}>
-                                            <NavLink to="/" className="offcanvas-title" id="offcanvasDarkNavbarLabel">LOGO</NavLink>
+                                            <NavLink to="/" className="offcanvas-title text-decoration-none text-white fw-bold border-0" id="offcanvasDarkNavbarLabel">LOGO</NavLink>
                                             <button type="button" className="btn-close btn-close-white text-white" data-bs-dismiss="offcanvas" aria-label="Close" />
                                         </div>
                                         <div className="offcanvas-body bg-white text-black">
-                                            <ul className="text-capitalize d-flex flex-column gap-2 fs-6 text-dark-emphasis">
-                                                {/* <li className="nav-item text-black"> */}
-                                                {/* className="navbar-nav justify-content-end flex-grow-1 pe-3 text-black" */}
+                                            <ul className="text-capitalize d-flex flex-column gap-2 fs-6 text-dark-emphasis border-0">
                                                 {!isLoggedIn ? (
                                                     <>
-                                                        <li className="d-flex align-items-center gap-2"><IoMdLogIn /><NavLink to="/login" className="nav-link  text-black" aria-current="page">Login</NavLink></li>
+                                                        <li className="d-flex align-items-center gap-2 border-0"><IoMdLogIn /><NavLink to="/login" className="nav-link  text-black border-0" aria-current="page">Login</NavLink></li>
                                                         <li className="d-flex align-items-center gap-2"><MdLogin /><NavLink to="/register" className="nav-link text-black" aria-current="page">Register</NavLink></li>
                                                     </>
                                                 ) : (
@@ -225,7 +196,6 @@ function Navbar() {
                                                         <BiSolidUserCircle /> <NavLink to="/dashboard/user/profile" className="nav-link" aria-current="page">Profile</NavLink>
                                                     </li>
                                                 )}
-                                                {/* </li> */}
                                                 <li className="d-flex align-items-center gap-2">
                                                     < FaCartPlus />
                                                     <NavLink to="/cart" className="nav-link">My Cart</NavLink>
@@ -239,20 +209,13 @@ function Navbar() {
                                                     <NavLink to="/category" className=" dropdown-toggle text-dark-emphasis" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                         All Category
                                                     </NavLink>
-                                                    <ul className="dropdown-menu dropdown-menu-dark text-dark-emphasis">
-                                                        {categories?.map((c) => {
+                                                    <ul className="dropdown-menu dropdown-menu-dark text-dark-emphasis text-white w-100 overflow-auto" style={{ height: "300px", backgroundColor: "#007aff" }}>
+                                                        {categories?.map((c, i) => {
                                                             return (
-                                                                <>
-                                                                    <li className="text-capitalize"><NavLink to={`/category/${c.slug}`} className="dropdown-item">{c.name}</NavLink></li>
-                                                                </>
+                                                                <li key={i} className="text-capitalize"><NavLink to={`/category/${c.slug}`} className="dropdown-item">{c.name}</NavLink></li>
                                                             )
                                                         })}
-                                                        {/* <li><a className="dropdown-item" href="#">Action</a></li>
-                                                        <li><a className="dropdown-item" href="#">Another action</a></li>
-                                                        <li>
-                                                            <hr className="dropdown-divider" />
-                                                        </li>
-                                                        <li><a className="dropdown-item" href="#">Something else here</a></li> */}
+
                                                     </ul>
                                                 </li>
                                                 <li className="d-flex align-items-center gap-2">

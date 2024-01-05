@@ -45,10 +45,4 @@ productRouter.get("/related-product/:pid/:cid", relatedProducts);
 //CATEGORY WISE PRODUCT
 productRouter.get("/product-category/:slug", productCategory);
 
-// //PAYMENTS ROUTES
-// //TOKEN
-// productRouter.get("/braintree/token", braintreeToken)
-
-// //PAYMENTS
-// productRouter.post("/braintree/payment", requredSignIn, braintreePayment)
 export default productRouter

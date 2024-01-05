@@ -34,13 +34,6 @@ export const createProduct = createAsyncThunk("product/create", async (data) => 
 export const getProductsByPage = createAsyncThunk("product/get-productlist", async (page) => {
     try {
         const response = await axiosInstance.get(`/product/product-list/${page}`)
-        // toast.promise(response, {
-        //     loading: "Wait! Getting All Products",
-        //     success: (data) => {
-        //         return data?.data?.message
-        //     },
-        //     error: "Failed to Get All Products"
-        // })
         return (await response).data
     } catch (error) {
         toast.error(error?.response?.data?.message)
@@ -51,13 +44,6 @@ export const getProductsByPage = createAsyncThunk("product/get-productlist", asy
 export const getAllProducts = createAsyncThunk("product/getAll", async (page) => {
     try {
         const response = await axiosInstance.get("/product/getall-products")
-        // toast.promise(response, {
-        //     loading: "Wait! Getting All Products",
-        //     success: (data) => {
-        //         return data?.data?.message
-        //     },
-        //     error: "Failed to Get All Products"
-        // })
         return (await response).data
     } catch (error) {
         toast.error(error?.response?.data?.message)
@@ -98,37 +84,6 @@ export const deleteProduct = createAsyncThunk("product/delete", async (pid) => {
     }
 });
 
-// `/api/products${categoryId ? `?categoryId=${categoryId}` : ''}`
-
-
-// ===============================
-
-
-//FILTER PRODUCT
-// export const filtersProduct = createAsyncThunk("product/filters", async ({ checked, radio }, { rejectWithValue }) => {
-//     console.log(checked, radio)
-//     try {
-//         // const response = axiosInstance.post("/product/filters-product", [data[0], data[1]]);
-//         const response = axiosInstance.post("/product/filters-product", {
-//             checked,
-//             radio,
-//         });
-//         console.log(response)
-//         // toast.promise(response, {
-//         //     loading: "Wait Filtering Products",
-//         //     success: (data) => {
-//         //         return data?.data?.message;
-//         //     },
-//         //     error: "Failed to Filtered Product",
-//         // });
-//         return await response.data;
-//     } catch (error) {
-//         toast.error(error?.response?.data?.message);
-//     }
-// });
-
-// ===============================
-
 export const filtersProduct = createAsyncThunk("product/filters", async (categoryIds, { rejectWithValue }) => {
     try {
         const response = axiosInstance.get(`/product/filters-product?categoryIds=${categoryIds.join(",")}`);
@@ -148,8 +103,6 @@ export const productCount = createAsyncThunk("product/count", async () => {
     }
 })
 
-//GET PRODUCT OR PAGINATION
-// export const 
 
 //SIMILAR PRODUCT
 export const relatedProducts = createAsyncThunk("product/related", async (data) => {
@@ -169,36 +122,10 @@ export const getProductByCategory = createAsyncThunk("product/bycategory", async
         const response = await axiosInstance.get(`/product/product-category/${slug}`);
         return (await response).data
     } catch (error) {
-        console.log(error?.response?.data?.message)
-        // toast.error(error?.response?.data?.message);
     }
 })
 
-//GET BRAINTREE TOKEN
-// export const getBrainTreeToken = createAsyncThunk("/product/getbraintoken", async () => {
-//     try {
-//         const response = await axiosInstance.get("/product/braintree/token");
-//         return await response.data
-//     } catch (error) {
-//         toast.error(error?.response?.data?.message);
-//     }
-// })
 
-//PAYMENT
-// export const payment = createAsyncThunk("/product/payment", async (payload, thunkAPI) => {
-//     try {
-//         console.log(payload)
-//         // const { nonce, items } = payload;
-//         console.log(payload[0])
-//         const nonce = payload[0]
-//         const items = payload[1]
-//         console.log(nonce, items)
-//         const response = axiosInstance.post("/product/braintree/payment", { nonce, items })
-//         return (await response).data
-//     } catch (error) {
-//         toast.error(error?.response?.data?.message);
-//     }
-// })
 const productSlice = createSlice({
     name: "product",
     initialState,
@@ -212,19 +139,12 @@ const productSlice = createSlice({
                 state.total = action?.payload?.total
             })
             .addCase(getProductByCategory.fulfilled, (state, action) => {
-                console.log(action)
                 state.productByCategory = action?.payload?.products
                 state.category = action?.payload?.category
-                console.log(state.productByCategory)
-                console.log(state.category)
             })
             .addCase(filtersProduct.fulfilled, (state, action) => {
-                console.log(action)
                 state.productFiltersData = action?.payload?.products
             })
-        // .addCase(getBrainTreeToken.fulfilled, (state, action) => {
-        //     console.log(action)
-        // })
     }
 });
 

@@ -1,11 +1,26 @@
 import React, { useState } from 'react';
 import { BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillBellFill, BsFillUsbCFill }
-    from 'react-icons/bs'
+    from 'react-icons/bs';
+import { FaFirstOrder } from "react-icons/fa";
+import { IoAddCircle } from "react-icons/io5";
+import { MdLogout } from "react-icons/md";
+import { BiSolidCategory } from "react-icons/bi";
 import { AiOutlineMenu } from "react-icons/ai"
 import "../../styles/AdminLayout.css"
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../redux/slices/authSlice';
 
 function AdminLayout({ children }) {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    async function onLogout(e) {
+        e.preventDefault();
+        const response = await dispatch(logout());
+        if (response?.payload?.data) {
+            navigate("/")
+        }
+    }
     return (
         <>
             <div className='d-flex justify-content-between'>
@@ -26,13 +41,13 @@ function AdminLayout({ children }) {
                                 </li>
                                 <li className='border-bottom border-dark'>
                                     <NavLink to="/dashboard/admin/users" className="d-flex item-center justify-content-center gap-1">
-                                        <BsFillArchiveFill className='text-white' />
+                                        <BsPeopleFill className='text-white' />
                                         <small>Users</small>
                                     </NavLink>
                                 </li>
                                 <li className='border-bottom border-dark'>
                                     <NavLink to="/dashboard/admin/orders" className="d-flex item-center justify-content-center gap-1">
-                                        <BsFillArchiveFill className='text-white' />
+                                        <FaFirstOrder className='text-white' />
                                         <small>Orders</small>
                                     </NavLink>
                                 </li>
@@ -45,14 +60,14 @@ function AdminLayout({ children }) {
                                 </li>
                                 <li className='border-bottom border-dark'>
                                     <NavLink to="/dashboard/admin/create-product" className="d-flex item-center justify-content-center gap-1">
-                                        <BsPeopleFill className='text-white' />
+                                        <IoAddCircle className='text-white' />
                                         <small>Add Product</small>
                                     </NavLink>
                                 </li>
 
                                 <li className='border-bottom border-dark'>
                                     <NavLink to="/dashboard/admin/create-category">
-                                        <span className="las la-envelope" />
+                                        <BiSolidCategory className='text-white' />
                                         <small>Categories</small>
                                     </NavLink>
                                 </li>
@@ -62,39 +77,24 @@ function AdminLayout({ children }) {
                                         <small>Tasks</small>
                                     </a>
                                 </li>
+
+                                <li className='border-bottom border-dark w-100 position-absolute bottom-0'>
+                                    <NavLink className="d-flex item-center justify-content-center gap-1">
+                                        <MdLogout className='text-white' />
+                                        <small onClick={onLogout}>Logout</small>
+                                    </NavLink>
+                                </li>
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div className="main-content bg-white">
                     <div style={{ minWidth: "100%", backgroundColor: "white" }}>
-                        <header className='header  d-flex justify-content-between' style={{ width: "90%" }}>
+                        <header className='header  d-flex justify-content-between' style={{ width: "100%" }}>
                             <label htmlFor="menu-toggle">
                                 <AiOutlineMenu />
                             </label>
-                            <div className="header-content d-flex justify-content-between">
-                                <nav className=" navbar-expand-lg ">
-                                    <div className id="navbarNavDropdown">
-                                        <ul className="navbar-nav">
-                                            <li className="nav-item dropdown position-relative end-0" >
 
-                                                <span classname="nav-link dropdown-toggle fs-6" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin</span>
-                                                <ul className="dropdown-menu mt-4 w-auto end-0  position-absolute">
-                                                    <li className="text-center">Logout</li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </nav>
-
-                                {/* <div className="header-menu position-relative right-0">
-                                <div className="user">
-                                    <BsFillUsbCFill />
-                                    <BsFillUsbCFill />
-                                    <span>Logout</span>
-                                </div>
-                            </div> */}
-                            </div>
 
                         </header>
                     </div>

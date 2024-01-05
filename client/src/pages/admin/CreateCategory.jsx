@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux"
-import AdminMenu from "../../components/Layout/AdminMenu"
 import Layout from "../../components/Layout/Layout"
 import { useEffect, useState } from "react";
 import { createCategory, deleteCategory, getCategories, updateCategory } from "../../redux/slices/categorySlice";
@@ -16,8 +15,6 @@ function CreateCategory() {
     const [visible, setVisible] = useState(false);
     const [selected, setSelected] = useState(null);
     const [updatedName, setUpdatedName] = useState("")
-
-    console.log(name)
     async function onFormSubmit(e) {
         e.preventDefault()
 
@@ -63,7 +60,6 @@ function CreateCategory() {
     console.log(categories)
     async function onGetData() {
         const response = await dispatch(getCategories())
-        console.log(response)
     }
     useEffect(() => {
         onGetData()
@@ -73,9 +69,9 @@ function CreateCategory() {
             <div className="container-fluid p-3">
                 <div className="row">
 
-                    <div className="col-md-9">
+                    <div className="col-md-9 col-12">
                         <h1>Manage Category</h1>
-                        <div className="p-3 w-50">
+                        <div className="p-3 w-100">
                             <CategoryForm
                                 onFormSubmit={onFormSubmit}
                                 value={name}
@@ -84,7 +80,7 @@ function CreateCategory() {
                                 setIcon={setIcon}
                             />
                         </div>
-                        <div className="w-75">
+                        <div className="w-100">
                             <table className="table">
                                 <thead>
                                     <tr>
@@ -95,8 +91,8 @@ function CreateCategory() {
                                 <tbody>
                                     {categories?.map((c) => (
                                         <>
-                                            <tr>
-                                                <td key={c._id}>{c.name}</td>
+                                            <tr key={c._id}>
+                                                <td>{c.name}</td>
                                                 <td>
                                                     <button
                                                         className="btn btn-primary ms-2"

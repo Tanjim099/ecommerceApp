@@ -35,7 +35,7 @@ function Carousel() {
                             </div>
                             <div className="carousel-item w-100 h-100 bg-transparent border-0">
                                 <NavLink to="/category/laptop">
-                                    <img src="https://consumer.huawei.com/content/dam/huawei-cbg-site/latam/mx/mkt/plp/laptops/new/d-series/matebook-d-series-1.jpg" className="d-block w-100 h-100 rounded-10" alt="..." />
+                                    <img src="https://suruchi-demo-3.myshopify.com/cdn/shop/files/3m.png?v=1694874182" className="d-block w-100 h-100 rounded-10" alt="..." />
                                     <div className="carousel-caption d-none d-md-block">
                                         <h5 className="fs-3 fw-bolder">60% Off on Diwali Dhamaka Sale - Get Additional Exchange Bonus</h5>
                                         <p className="fs-6">Some representative placeholder content for the third slide.</p>
@@ -64,9 +64,6 @@ function Carousel() {
 
                         </div>
                     </div>
-                    {/* <div className="smallCard">
-                    <img src="https://suruchi-demo-3.myshopify.com/cdn/shop/files/4_47ca1fa7-ee5e-4e29-b9ff-5df81e07e87c.png?v=1694957660&width=1500" alt="" />
-                </div> */}
 
                     <div className="card text-bg-none smallCard p-0 w-100 bg-transparent border-none rounded-4 " onClick={() => navigate("/category/video-games")}>
                         <img src="https://suruchi-demo-3.myshopify.com/cdn/shop/files/4_47ca1fa7-ee5e-4e29-b9ff-5df81e07e87c.png?v=1694957660&width=1500" className="card-img w-100 h-100" alt="..." />

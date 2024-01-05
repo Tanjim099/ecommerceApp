@@ -10,7 +10,6 @@ import "../../styles/Orders.css"
 function Orders() {
     const dispatch = useDispatch();
     const [orderList, setOrderList] = useState([])
-    console.log(orderList)
     async function getAllOrders() {
         const response = await dispatch(getOrders());
         setOrderList(response?.payload)
@@ -29,7 +28,7 @@ function Orders() {
                         <h1 className="text-center">All Orders</h1>
                         {orderList?.map((order, i) => {
                             return (
-                                <div className="border overflow-scroll  mb-3 orderCardBox">
+                                <div key={i} className="border overflow-scroll  mb-3 orderCardBox">
                                     <table className="table bg-success">
                                         <thead>
                                             <tr className="bg-success">

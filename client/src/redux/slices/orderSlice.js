@@ -45,7 +45,6 @@ const orderSlice = createSlice({
                 state.orders = action?.payload
             })
             .addCase(getAllOrders.fulfilled, (state, action) => {
-                console.log(action)
             })
     }
 })

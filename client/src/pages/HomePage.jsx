@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import Carousel from "../components/Carousel";
 import { Checkbox, Radio } from "antd";
 import { getCategories } from "../redux/slices/categorySlice";
-import { Prices } from "../components/Prices";
 import { NavLink, useNavigate } from "react-router-dom";
 import { addItem } from "../redux/slices/cartSlice";
 import toast from "react-hot-toast";
@@ -22,12 +21,10 @@ function HomePage() {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const [productList, setProductList] = useState([])
-    // const [checked, setChecked] = useState([]);
     const [radio, setRadio] = useState([]);
     const [total, setTotal] = useState(0);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(1);
-    // const { productList } = useSelector((state) => state?.product)
     async function onLoadGetAllProducts() {
         setLoading(true);
         const response = await dispatch(getProductsByPage(page));
@@ -58,44 +55,18 @@ function HomePage() {
         setTotal(response?.payload?.total)
     }
 
-    //FILTER BY CATEGORY
-    const handleFilters = (value, id) => {
-        let all = [...checked];
-        if (value) {
-            all.push(id);
-        }
-        else {
-            all = all.filter((c) => c !== id);
-        }
-        setChecked(all)
-    }
 
-    // async function onFiltersProduct() {
-    //     const response = await dispatch(filtersProduct([checked, radio]))
-    //     setProductList(response?.payload?.products)
-    // }
 
     function onAddToCart(item) {
-        console.log("yes")
-        // localStorage.setItem("cart", JSON.stringify([...item]))
         dispatch(addItem(item))
         toast.success("Item Added to cart")
     }
     const { items } = useSelector((state) => state?.cart);
-    console.log(items)
 
 
     //===============================
 
-    const priceRanges = [
-        { label: '0-10', value: [0, 10] },
-        { label: '10-20', value: [10, 20] },
-        { label: '20-30', value: [20, 30] },
-        // Add more predefined price ranges as needed
-    ];
-
     const [selectedCategories, setSelectedCategories] = useState([]);
-    // const [selectedPriceRanges, setSelectedPriceRanges] = useState([]);
     function reCall() {
         if (!selectedCategories.length) onLoadGetAllProducts()
     }
@@ -111,19 +82,10 @@ function HomePage() {
         setSelectedCategories(updatedCategories);
     };
 
-    // const handlePriceRangeChange = (priceRange) => {
-    //     const updatedPriceRanges = selectedPriceRanges.includes(priceRange)
-    //         ? selectedPriceRanges.filter((range) => range !== priceRange)
-    //         : [...selectedPriceRanges, priceRange];
-    //     setSelectedPriceRanges(updatedPriceRanges);
-    // };
 
     const handleFilter = async () => {
-        console.log(selectedCategories);
         if (!selectedCategories.length) onLoadGetAllProducts()
-        // const priceRangeValues = selectedPriceRanges.flatMap((range) => range.value);
         const response = await dispatch(filtersProduct(selectedCategories));
-        console.log(response)
         setProductList(response?.payload?.products)
         setTotal(response?.payload?.products?.length)
     };
@@ -132,7 +94,6 @@ function HomePage() {
         onloadGetProductCount()
         onGetData()
         onLoadGetAllProducts()
-        handleFilter()
         if (!selectedCategories.length) onLoadGetAllProducts()
     }, [])
 
@@ -140,9 +101,6 @@ function HomePage() {
         if (selectedCategories.length) handleFilter()
     }, [])
 
-
-    console.log(productList?.length)
-    console.log(total)
     return (
         <Layout>
             <div className="container-fluid  homePagContainer">
@@ -156,7 +114,6 @@ function HomePage() {
                             {/* CATEGORY FILTER */}
                             <div>
                                 <h2 className="text-center mt-2 fs-6 fw-bold">Filter Products</h2>
-                                {/* Assume you have a list of categories from the API */}
                                 <div className="d-flex flex-column gap-2">
                                     {categories.map((category) => (
                                         <div key={category._id} className="flex flex-column gap-3 inline">
@@ -173,58 +130,24 @@ function HomePage() {
                                 </div>
                                 <button className="w-100 border-0 bg-primary text-white p-1 mt-3" onClick={handleFilter}>Apply Filters</button>
                             </div>
-                            <hr />
-                            <div>
-                                {/*PRICE FILTER */}
-                                <h4 className="text-center mt-2 fs-6 fw-bold">Filter By Price</h4>
-                                <div className="d-flex flex-column">
-                                    <Radio.Group onChange={(e) => setRadio(e.target.value)}>
-                                        {
-                                            Prices?.map((p) => {
-                                                return (
-                                                    <div key={p._id}>
-                                                        <Radio value={p.array}>{p.name}</Radio>
-                                                        <hr />
-                                                    </div>
-                                                )
-                                            })
-                                        }
-                                    </Radio.Group>
-
-                                    {/* {priceRanges.map((range, i) => (
-                                        <div key={i}>
-                                            <input
-                                                type="checkbox"
-                                                id={i}
-                                                checked={selectedPriceRanges.includes(range)}
-                                                onChange={() => handlePriceRangeChange(range)}
-                                            />
-                                            <label htmlFor={range.label}>{range.label}</label>
-                                        </div>
-                                    ))} */}
-                                </div>
-                            </div>
                         </div>
                         {/* filter for small device */}
                         <div className="smallDeviceFilterBox rounded bg-white p-2">
                             <div className="filterBtn">
-                                <button type="button" data-bs-toggle="modal" className="bg-transparent border-0 w-100" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Categories <MdOutlineKeyboardArrowDown /></button> |
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" className="bg-transparent border-0 w-100" data-bs-whatever="@fat">Price <MdOutlineKeyboardArrowDown /></button>
+                                <button type="button" data-bs-toggle="modal" className="bg-transparent border-0 w-100" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Categories <MdOutlineKeyboardArrowDown /></button>
                             </div>
                             <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div className="modal-dialog m-0">
                                     <div className="modal-content w-50 " style={{ minHeigh: "100vh" }}>
                                         <div className="modal-header">
-                                            <h1 className="modal-title fs-5" id="exampleModalLabels">New message</h1>
+                                            <h2 className="text-center mt-2 fs-6 fw-bold">Filter Products</h2>
                                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
                                         </div>
                                         <div>
-                                            <h2 className="text-center mt-2 fs-6 fw-bold">Filter Products</h2>
-                                            {/* Assume you have a list of categories from the API */}
                                             <div className="d-flex flex-column gap-2 px-3">
                                                 {categories.map((category) => (
                                                     <div key={category._id} className="flex flex-column align-items-center gap-3 inline">
-                                                        <Radio
+                                                        <input
                                                             type="checkbox"
                                                             id={category._id}
                                                             style={{ fontSize: "12px" }}
@@ -237,24 +160,7 @@ function HomePage() {
                                             </div>
                                             <button className="w-100 border-0 bg-primary text-white p-1 mt-3" data-bs-dismiss="modal" onClick={handleFilter}>Apply Filters</button>
                                         </div>
-                                        <div className="modal-body">
-                                            <Radio.Group onChange={(e) => setRadio(e.target.value)}>
-                                                {
-                                                    Prices?.map((p) => {
-                                                        return (
-                                                            <div key={p._id}>
-                                                                <Radio value={p.array}>{p.name}</Radio>
-                                                                <hr />
-                                                            </div>
-                                                        )
-                                                    })
-                                                }
-                                            </Radio.Group>
-                                        </div>
-                                        <div className="modal-footer">
-                                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="button" className="btn btn-primary">Send message</button>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -263,27 +169,8 @@ function HomePage() {
                         {/* ============================ */}
                     </div>
                     <div className="col-md-10">
-
-                        {/* <ProductCart /> */}
                         <div className="cardContainer">
                             {productList?.map((p, i) => (
-                                // <div className="card m-2" style={{ width: "18rem", maxHeight: "28rem" }}>
-                                //     <img
-                                //         src={p.image.secure_url}
-                                //         className="card-img-top h-[100px]"
-                                //         style={{ maxHeight: "250px" }}
-                                //         alt={p.name}
-                                //     />
-                                //     <div className="card-body">
-                                //         <h5 className="card-title">{p.name.substring(0, 20)}...</h5>
-                                //         <p className="card-text">
-                                //             {p.description.substring(0, 30)}...
-                                //         </p>
-                                //         <p className="card-text">₹ {p.price}</p>
-                                //         <button class="btn btn-primary ms-1" onClick={() => navigate(`/product/${p.slug}`, { state: p })}>More Details</button>
-                                //         <button class="btn btn-secondary ms-1" onClick={() => onAddToCart(p)}>ADD TO CART</button>
-                                //     </div>
-                                // </div>
                                 <ProductCart key={i} title={p.name} image={p.image.secure_url} price={p.price} id={p._id} slug={p.slug} data={p} />
                             ))}
                         </div>

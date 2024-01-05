@@ -1,5 +1,4 @@
 import Footer from "./Footer"
-import Header from "./Header";
 import { Helmet } from "react-helmet";
 import { Toaster } from 'react-hot-toast';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,9 +15,6 @@ function Layout({ children, title, description, keywords, author }) {
                 <meta name="author" content={author} />
                 <title>{title}</title>
             </Helmet>
-            {/* <div className="testHeader">
-                <Header />
-            </div> */}
             <Navbar />
             <main style={{ minHeight: "75vh", marginTop: "0px" }}>
                 <Toaster />

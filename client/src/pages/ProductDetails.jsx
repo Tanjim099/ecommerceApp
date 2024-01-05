@@ -12,7 +12,6 @@ function ProductDetails() {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const { state } = useLocation();
-    console.log(state)
     const [relatedProductsList, setRelatedProductsList] = useState([])
 
     async function onLoadGetSilimarProduct() {
@@ -24,10 +23,8 @@ function ProductDetails() {
 
     let getCartData = localStorage.getItem("cartItems");
     let cartData = JSON.parse(getCartData)
-    // console.log(cartItem)
 
     function onAddToCart(item) {
-        // localStorage.setItem("cart", JSON.stringify([...item]));
         dispatch(addItem({
             id: item._id,
             name: item.name,
@@ -35,7 +32,6 @@ function ProductDetails() {
             image: item.image.secure_url,
             itemQuantity: 1
         }))
-        // dispatch(addItem(item))
         toast.success("Item Added to cart")
     }
 
@@ -61,16 +57,8 @@ function ProductDetails() {
                                 <hr />
 
                                 <div>
-                                    <span className="selling-price">${state?.price}</span>
-                                    <span className="original-price">$499</span>
+                                    <span className="selling-price">₹ {state?.price}</span>
                                 </div>
-                                {/* <div className="mt-2">
-                                    <div className="input-group">
-                                        <span className="btn btn1"><i className="fa fa-minus" /></span>
-                                        <input type="text" defaultValue={1} className="input-quantity" />
-                                        <span className="btn btn1"><i className="fa fa-plus" /></span>
-                                    </div>
-                                </div> */}
                                 <div className="mt-2">
                                     <button class="btn btn1" onClick={() => onAddToCart(state)}>Add to Cart</button>
                                     <button class="btn btn1">Add To Wishlist</button>

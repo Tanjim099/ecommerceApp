@@ -5,7 +5,6 @@ import { decrementQuantity, incrementQuantity, removeItem } from "../redux/slice
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DropIn from "braintree-web-drop-in-react";
-// import { getBrainTreeToken, payment } from "../redux/slices/productSlice";
 import toast from "react-hot-toast";
 import "../styles/CardStyle.css"
 import { getBrainTreeToken, payment } from "../redux/slices/paymentSlice";
@@ -82,58 +81,17 @@ function CartPage() {
                     </div>
                 </div>
                 <div className="row row-gap-3">
-                    {/* col-12 col-md-12 col-lg-3  text-center bg-white p-2 */}
                     <div className="col-12 col-md-12 col-lg-9 p-lg-2 p-1 bg-white">
-                        {/* {items?.map((p) => (
-                            <div className="row mb-2 p-3 card flex-row">
-                                <div className="col-md-4">
-                                    <img
-                                        src={p.image.secure_url}
-                                        className="card-img-top"
-                                        alt={p.name}
-                                        width="100px"
-                                        height={"100px"}
-                                    />
-                                </div>
-                                <div className="col-md-8">
-                                    <p>{p.name}</p>
-                                    <p>{p.description.substring(0, 30)}</p>
-                                    <p>Price : {p.price}</p>
-                                    <button
-                                        className="btn btn-danger"
-                                        onClick={(e) => removeCartItem(e, p)}
-                                    >
-                                        Remove
-                                    </button>
-                                </div>
-                            </div>
-                        ))} */}
                         {/* ========================== */}
                         <div className="py-3 py-md-5">
                             <div className="container">
                                 <div className="row gap-5">
                                     <div className="col-md-12">
                                         <div className="shopping-cart">
-                                            {/* <div className="cart-header d-none d-sm-none d-mb-block d-lg-block">
-                                                <div className="row">
-                                                    <div className="col-md-6">
-                                                        <h4>Products</h4>
-                                                    </div>
-                                                    <div className="col-md-2">
-                                                        <h4>Price</h4>
-                                                    </div>
-                                                    <div className="col-md-2">
-                                                        <h4>Quantity</h4>
-                                                    </div>
-                                                    <div className="col-md-2">
-                                                        <h4>Remove</h4>
-                                                    </div>
-                                                </div>
-                                            </div> */}
                                             <div className="cart-item d-flex flex-column gap-3">
                                                 {items?.map((p, i) => {
                                                     return (
-                                                        <div className="row bg-light p-3 px-md-2">
+                                                        <div key={i} className="row bg-light p-3 px-md-2">
 
                                                             <div className="col-md-5 gap-1 d-flex gap-2 d-lg-flex gap-lg-2 align-items-lg-center my-auto">
                                                                 <div className="mr-1">
@@ -142,10 +100,6 @@ function CartPage() {
                                                                 <div>
                                                                     <span className=" fs-md-2" style={{ fontSize: "13px" }}>{p.name}</span>
                                                                 </div>
-                                                                {/* <label className="product-name">
-
-
-                                                                </label> */}
                                                             </div>
                                                             <div className="col-md-2 my-auto">
                                                                 <label className="price">{p.price}</label>
@@ -154,7 +108,7 @@ function CartPage() {
                                                                 <div className="quantity">
                                                                     <div className="input-group">
                                                                         <span className="btn btn1" onClick={() => handleDecrement(p)} disabled={p.itemQuantity === 1}><i className="fa fa-minus" /></span>
-                                                                        {/* <input type="text" defaultValue={p.quantity} className="input-quantity" /> */}
+
                                                                         <span className="input-quantity text-center">{p.itemQuantity || 1}</span>
                                                                         <span className="btn btn1" onClick={() => handleIncrement(p)} ><i className="fa fa-plus" /></span>
                                                                     </div>

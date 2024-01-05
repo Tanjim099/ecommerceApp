@@ -6,7 +6,6 @@ import { useDispatch } from "react-redux";
 const SearchInput = () => {
     const navigate = useNavigate()
     const [searchQuery, setSearchQuery] = useState('');
-    // const products = useSelector((state) => state.products);
     const dispatch = useDispatch();
 
     const handleSearch = async (e) => {

@@ -58,7 +58,7 @@ function Login() {
                         />
                     </div>
 
-                    <div className="flex flex-col">
+                    <div className="d-flex flex-column gap-2">
                         <button type="submit" className="btn btn-primary">
                             LOGIN
                         </button>

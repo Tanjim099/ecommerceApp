@@ -18,7 +18,6 @@ function Profile() {
     function onLoadUserData() {
         const getUserData = localStorage.getItem("userData")
         let userData = JSON.parse(getUserData);
-        console.log(userData)
         setName(userData?.name)
         setEmail(userData?.email)
         setPhone(userData?.phone)
@@ -38,7 +37,6 @@ function Profile() {
             phone: phone,
             address: address
         }
-        console.log(userData)
         const response = await dispatch(updateProfile(userData))
         console.log(response)
         if (response?.payload?.success) {

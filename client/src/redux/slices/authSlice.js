@@ -100,7 +100,6 @@ const authSlice = createSlice({
     extraReducers: (builder) => {
         builder.
             addCase(login.fulfilled, (state, action) => {
-                console.log(action)
                 localStorage.setItem("userData", JSON.stringify(action?.payload?.user))
                 localStorage.setItem("isLoggedIn", true);
                 localStorage.setItem("role", action?.payload?.user?.role)
@@ -120,7 +119,6 @@ const authSlice = createSlice({
                 state.data = {}
             })
             .addCase(forgotPassword.fulfilled, (state, action) => {
-                console.log(action)
                 localStorage.setItem("userData", JSON.stringify(action?.payload?.user))
                 localStorage.setItem("isLoggedIn", true);
                 localStorage.setItem("role", action?.payload?.user?.role)
@@ -129,7 +127,6 @@ const authSlice = createSlice({
                 state.role = action?.payload?.user?.role;
             })
             .addCase(updateProfile.fulfilled, (state, action) => {
-                console.log(action)
                 localStorage.setItem("userData", JSON.stringify(action?.payload?.updatedUser))
                 state.data = action?.payload?.updatedUser;
             })
