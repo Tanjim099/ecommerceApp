@@ -1,9 +1,9 @@
 import { useDispatch } from "react-redux";
 import Layout from "../../components/Layout/Layout"
-import UserMenu from "../../components/Layout/userMenu"
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { updateProfile } from "../../redux/slices/authSlice";
+import UserMenu from "../../components/Layout/userMenu";
 
 
 function Profile() {
