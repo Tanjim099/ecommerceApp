@@ -35,10 +35,10 @@ function ProductCart({ title, image, price, id, slug, data }) {
                 </div>
             </div>
             <div class="overlay">
-                <button class="add-to-cart-btn" onClick={() => onAddToCart(data)}>Add to Cart</button>
+                <button className="add-to-cart-btn" onClick={() => onAddToCart(data)}>Add to Cart</button>
             </div>
             <div class="add-to-cart-btn_Box">
-                <button class="add-to-cart-btn" onClick={() => onAddToCart(data)}>Add to Cart</button>
+                <button className="add-to-cart-btn" onClick={() => onAddToCart(data)}>Add to Cart</button>
             </div>
         </div>
     )
