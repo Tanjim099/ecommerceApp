@@ -8,7 +8,6 @@ import PolicyPage from './pages/Policy'
 import PageNotFound from './pages/PageNotFound'
 import Register from './pages/auth/Register'
 import Login from './pages/auth/Login'
-import Dashboard from './pages/user/Dashboard'
 import RequireAuth from './components/auth/RequireAuth'
 import ForgotPassword from './pages/auth/ForgotPassword'
 import AdminDashboard from './pages/admin/AdminDashboard'
@@ -25,7 +24,6 @@ import CategoryProduct from './pages/CategoryProduct'
 import CartPage from './pages/CartPage'
 import AdminOrders from './pages/admin/AdminOrders'
 import AdminUsers from './pages/admin/AdminUsers'
-
 function App() {
 
   return (
@@ -47,7 +45,6 @@ function App() {
 
 
         <Route element={<RequireAuth allowedRoles={["ADMIN", "USER"]} />}>
-          <Route path='/dashboard/user' element={<Dashboard />} />
           <Route path='/dashboard/user/profile' element={<Profile />} />
           <Route path='/dashboard/user/orders' element={<Orders />} />
         </Route>
