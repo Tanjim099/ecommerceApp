@@ -9,8 +9,8 @@ import toast from "react-hot-toast";
 import { BsFillBellFill, BsFillEnvelopeFill, BsPersonCircle, BsSearch, BsJustify }
     from 'react-icons/bs';
 const { Option } = Select;
-import "../../styles/createProduct.css"
 import AdminLayout from "../../components/Layout/AdminLayout";
+import "../../styles/createProduct.css"
 function CreateProduct() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
