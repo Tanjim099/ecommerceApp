@@ -3,7 +3,7 @@ import Layout from "../../components/Layout/Layout"
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { updateProfile } from "../../redux/slices/authSlice";
-import UserMenu from "../../components/Layout/userMenu";
+import UserMenu from "../../components/Layout/UserMenu"
 
 
 function Profile() {
