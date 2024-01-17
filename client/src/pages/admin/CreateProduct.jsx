@@ -10,7 +10,7 @@ import { BsFillBellFill, BsFillEnvelopeFill, BsPersonCircle, BsSearch, BsJustify
     from 'react-icons/bs';
 const { Option } = Select;
 import AdminLayout from "../../components/Layout/AdminLayout";
-import "../../styles/createProduct.css"
+import "../../styles/CreateProduct.css";
 function CreateProduct() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
