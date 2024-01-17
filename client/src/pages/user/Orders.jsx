@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import { getOrders } from "../../redux/slices/orderSlice";
 import moment from "moment"
 import dateFormeter from "../../helper/dateFormater";
-import "../../styles/Orders.css"
-import UserMenu from "../../components/Layout/userMenu";
+import "../../styles/Orders.css";
+import UserMenu from "../../components/Layout/UserMenu"
 
-
+// import UserMenu from "../../components/Layout/userMenu";
 function Orders() {
     const dispatch = useDispatch();
     const [orderList, setOrderList] = useState([])
