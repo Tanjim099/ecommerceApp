@@ -10,13 +10,25 @@ import UserMenu from "../../components/Layout/UserMenu"
 function Orders() {
     const dispatch = useDispatch();
     const [orderList, setOrderList] = useState([])
+    const [userData, setUserData] = useState([])
+
+    const { userProfile } = useSelector((state) => state?.auth);
+    // setUserData(userProfile)
+    console.log(userProfile)
+
+    useEffect(() => {
+        const getUserData = localStorage.getItem("userData")
+        let userData = JSON.parse(getUserData);
+        setUserData(userData)
+    }, [])
+
     async function getAllOrders() {
-        const response = await dispatch(getOrders());
+        const response = await dispatch(getOrders(userData?._id));
         setOrderList(response?.payload)
     }
     useEffect(() => {
         getAllOrders()
-    }, [])
+    }, [userData])
     return (
         <Layout title={"User - Orders Page"}>
             <div className="container-fluid col-12 col-lg-8 my-4 min-h-auto m-auto">

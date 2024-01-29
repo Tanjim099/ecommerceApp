@@ -7,12 +7,12 @@ const initialState = {
     allOrders: []
 }
 
-export const getOrders = createAsyncThunk("order/get", async () => {
+export const getOrders = createAsyncThunk("order/get", async (buyerId) => {
     try {
-        const response = axiosInstance.get("/order/orders")
+        const response = axiosInstance.get(`/order/orders/${buyerId}`)
         return (await response).data
     } catch (error) {
-        toast.error(error?.response?.data?.message)
+        // toast.error(error?.response?.data?.message)
     }
 })
 
