@@ -115,7 +115,7 @@ function HomePage() {
                             <div>
                                 <h2 className="text-center mt-2 fs-6 fw-bold">Filter Products</h2>
                                 <div className="d-flex flex-column gap-2">
-                                    {categories.map((category) => (
+                                    {categories?.map((category) => (
                                         <div key={category._id} className="flex flex-column gap-3 inline">
                                             <input
                                                 type="checkbox"
@@ -145,7 +145,7 @@ function HomePage() {
                                         </div>
                                         <div>
                                             <div className="d-flex flex-column gap-2 px-3">
-                                                {categories.map((category) => (
+                                                {categories?.map((category) => (
                                                     <div key={category._id} className="flex flex-column align-items-center gap-3 inline">
                                                         <input
                                                             type="checkbox"
